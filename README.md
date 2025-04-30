@@ -1,10 +1,6 @@
 # DeepNTuples ( Unified2025 branch )
-High–throughput Ntuple production for CMS *DeepFlavour/ParT* studies and training
-===================================================================
 
-DeepNTuples converts CMS MINIAOD samples into **training-ready
-ROOT ntuples** that feed the DeepFlavour / ParT taggers, together with a set of
-helper scripts for large-scale grid or HTCondor production and post-processing.
+High–throughput Ntuple production for CMS *DeepFlavour/ParT* studies and training. DeepNTuples converts CMS MINIAOD samples into **training-ready ROOT ntuples** that feed the DeepFlavour / ParT taggers, together with a set of helper scripts for large-scale grid or HTCondor production and post-processing.
 
 
 Installation (CMSSW 15_0_2)
@@ -39,16 +35,19 @@ Repo Overview
 
 DeepNTuples/
 ├── DeepNtuplizer/                 # CMSSW plugin & helpers
-│   ├── python/                    # EDM configuration fragments (*.cfi) ──┐
-│   │   └── DeepNtuplizer_cfi.py   # main EDAnalyzer config                │&#8203;:contentReference[oaicite:2]{index=2}
-│   ├── plugins/                   # C++ EDM producer code (b-tag vars…)   │
-│   ├── scripts/                   # Grid helpers                           │
-│   │   ├── jobSub.py              #  → submit N jobs to HTCondor          │&#8203;:contentReference[oaicite:3]{index=3}
-│   │   ├── check.py               #  → monitor / resubmit / create lists  │&#8203;:contentReference[oaicite:4]{index=4}
-│   │   └── mergeSamples.py        #  → merge file-lists into big ROOTs    │
-│   └── production/                # Example *.cfg files (NanoAOD ▶︎ ntuples)
+│   ├── interface/                 # public C++ headers
+│   ├── src/                       # C++ implementation files
+│   ├── python/                    # EDM configuration fragments (*.cfi)
+│   │   └── DeepNtuplizer_cfi.py   # main EDAnalyzer config
+│   ├── plugins/                   # C++ EDM producer modules (b-tag vars, etc.)
+│   ├── scripts/                   # grid-submission helpers
+│   │   ├── jobSub.py              # submit N jobs to HTCondor
+│   │   ├── check.py               # monitor / resubmit / create file lists
+│   │   └── mergeSamples.py        # merge file-lists into big ROOTs
+│   └── production/                # example *.cfg files (NanoAOD → ntuples)
 ├── JMEAnalysis/JetToolbox/        # JetToolbox as git-submodule
 └── README.md                      # you are here
+
 
 
 Production
