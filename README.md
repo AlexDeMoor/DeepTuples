@@ -30,26 +30,6 @@ It is important to create your grid proxy in a location that is accessible by ot
 export X509_USER_PROXY=${HOME}/.gridproxy.pem
 ```
 
-Repo Overview
-============
-
-DeepNTuples/
-├── DeepNtuplizer/                 # CMSSW plugin & helpers
-│   ├── interface/                 # public C++ headers
-│   ├── src/                       # C++ implementation files
-│   ├── python/                    # EDM configuration fragments (*.cfi)
-│   │   └── DeepNtuplizer_cfi.py   # main EDAnalyzer config
-│   ├── plugins/                   # C++ EDM producer modules (b-tag vars, etc.)
-│   ├── scripts/                   # grid-submission helpers
-│   │   ├── jobSub.py              # submit N jobs to HTCondor
-│   │   ├── check.py               # monitor / resubmit / create file lists
-│   │   └── mergeSamples.py        # merge file-lists into big ROOTs
-│   └── production/                # example *.cfg files (NanoAOD → ntuples)
-├── JMEAnalysis/JetToolbox/        # JetToolbox as git-submodule
-└── README.md                      # you are here
-
-
-
 Production
 ==========
 
