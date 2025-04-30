@@ -1,5 +1,10 @@
-# DeepNTuples
-NTuple framework for DeepFlavour
+# DeepNTuples ( Unified2025 branch )
+High–throughput Ntuple production for CMS *DeepFlavour/ParT* studies and training
+===================================================================
+
+DeepNTuples converts CMS MINIAOD samples into **training-ready
+ROOT ntuples** that feed the DeepFlavour / ParT taggers, together with a set of
+helper scripts for large-scale grid or HTCondor production and post-processing.
 
 
 Installation (CMSSW 15_0_2)
@@ -10,7 +15,7 @@ cmsrel CMSSW_15_0_2
 cd CMSSW_15_0_2/src/
 cmsenv
 git cms-init
-git clone https://github.com/AlexDeMoor/DeepNTuples
+git clone git clone https://gitlab.cern.ch/cms-btv/DeepNTuples.git
 cd DeepNTuples
 git checkout ParT_2024
 # Add JetToolBox
@@ -28,6 +33,23 @@ It is important to create your grid proxy in a location that is accessible by ot
 ```
 export X509_USER_PROXY=${HOME}/.gridproxy.pem
 ```
+
+Repo Overview
+============
+
+DeepNTuples/
+├── DeepNtuplizer/                 # CMSSW plugin & helpers
+│   ├── python/                    # EDM configuration fragments (*.cfi) ──┐
+│   │   └── DeepNtuplizer_cfi.py   # main EDAnalyzer config                │&#8203;:contentReference[oaicite:2]{index=2}
+│   ├── plugins/                   # C++ EDM producer code (b-tag vars…)   │
+│   ├── scripts/                   # Grid helpers                           │
+│   │   ├── jobSub.py              #  → submit N jobs to HTCondor          │&#8203;:contentReference[oaicite:3]{index=3}
+│   │   ├── check.py               #  → monitor / resubmit / create lists  │&#8203;:contentReference[oaicite:4]{index=4}
+│   │   └── mergeSamples.py        #  → merge file-lists into big ROOTs    │
+│   └── production/                # Example *.cfg files (NanoAOD ▶︎ ntuples)
+├── JMEAnalysis/JetToolbox/        # JetToolbox as git-submodule
+└── README.md                      # you are here
+
 
 Production
 ==========
@@ -74,3 +96,59 @@ This will take a significant amount of time - likely more than the ntuple produc
 ```
 mergeSamples.py 400000 /path/to/dir/merged ntuple_*/train_val_samples.txt --batch
 ```
+
+Main production params (command-line flags):
+==========
+
+DeepNtuplizer’s Python config exposes a rich set of **runtime flags** that can be overridden directly on the command line, e.g.
+One can run on Data or MC easily, switching from usual BTV training selection like:
+
+```bash
+cmsRun DeepNtuplizer.py maxEvents=100000 isMC=True reportEvery=500
+```
+
+To Domain jet selection (Data or MC) or even a specific analysis selection for tagger fine tuning:
+
+```bash
+cmsRun DeepNtuplizer.py maxEvents=-1 isMC=True/False isDomain=True isemu=True reportEvery=500
+```
+
+| Flag               | Type  | Default | Purpose / behaviour |
+|--------------------|-------|---------|---------------------|
+| **outputFile**     | str   | "output"| Prefix of the output ROOT file (`.root` is auto-appended) |
+| **maxEvents**      | int   | 50001   | Hard stop after *N* events (`-1` for all) |
+| **skipEvents**     | int   | 0       | Skip first *N* events |
+| **job**            | int   | 0       | Job index inside a multi-job split |
+| **nJobs**          | int   | 1       | Total number of jobs for this dataset |
+| **reportEvery**    | int   | 1000    | Frequency of FWK progress messages |
+| **gluonReduction** | float | 0.0     | Down-weight gluon-jets by this factor (0 ⇢ off) |
+| **selectJets**     | bool  | True    | Keep only jets with “good” gen-level match |
+| **phase2**         | bool  | False   | Activate Phase-2 jet selection (η < 3.0, PUPPI jets) |
+| **puppi**          | bool  | True    | Use `slimmedJetsPuppi` jets |
+| **eta**            | bool  | False   | Extend acceptance to |η| < 5.0 (default 4.7) |
+| **isMC**           | bool  | True    | Toggle use of generator info (set **False** for data) |
+| **isDomain**       | bool  | False   | Tag jets as “domain” samples for domain-adaptation studies |
+| **isemu**          | bool  | False   | Mark event as eµ control region (for specialised skims) |
+| **ismutau**        | bool  | False   | Mark event as µτₕ control region |
+| **isdimu**         | bool  | False   | Mark event as µµ control region |
+
+Customising the Config:
+==========
+
+Note we most of the time keep this untouched (we edit the params in the production file) except if we add any new config param.
+DeepNtuplizer/python/DeepNtuplizer_cfi.py exposes all switches of the EDAnalyzer. Highlights:
+
+| Parameter                     | Default | Meaning |
+|-------------------------------|---------|---------|
+| `jets`, `fatjets`             | `slimmedJetsPuppi`, `slimmedJetsAK8` | PF- or PUPPI-jets, AK4 or AK8 |
+| `MC`, `Domain`                | `True`, `False` | Toggle MC matching & domain tagging |
+| `gluonReduction`              | `0.0`   | Down-weight gluon jets fraction |
+| `jetPtMin`, `jetAbsEtaMax`    | `10 GeV`, `5.0` | Kinematic acceptance |
+| Domain selections.            | `emu`, `dimu`, `mutau` |
+
+Contributing
+==========
+* Fork and create a feature branch.
+* Respect the CMSSW code style (clang-format).
+* Run scram b runtests if you add plugins.
+* Open a pull request whenever you are done and have contribution for the rest of the collaboration
