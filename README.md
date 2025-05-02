@@ -13,7 +13,7 @@ cmsenv
 git cms-init
 git clone git clone https://gitlab.cern.ch/cms-btv/DeepNTuples.git
 cd DeepNTuples
-git checkout ParT_2024
+git checkout Unified2025
 # Add JetToolBox
 git submodule init
 git submodule update
