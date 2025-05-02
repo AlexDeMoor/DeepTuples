@@ -165,6 +165,7 @@ void ntuple_pairwise::initBranches(TTree* tree){
   addBranch(tree,"pair_pca_distpv", &pair_pca_distpv_,"pair_pca_distpv_[n_Cpfpairs_]/F");
   addBranch(tree,"pair_pca_distance", &pair_pca_distance_,"pair_pca_distance_[n_Cpfpairs_]/F");
   addBranch(tree,"pair_pca_significance", &pair_pca_significance_,"pair_pca_significance_[n_Cpfpairs_]/F");
+  addBranch(tree,"pair_pca_error", &pair_pca_error_,"pair_pca_error_[n_Cpfpairs_]/F");
 
   addBranch(tree,"pair_pcaSeed_x1", &pair_pcaSeed_x1_,"pair_pcaSeed_x1_[n_Cpfpairs_]/F");
   addBranch(tree,"pair_pcaSeed_y1", &pair_pcaSeed_y1_,"pair_pcaSeed_y1_[n_Cpfpairs_]/F");
@@ -275,6 +276,7 @@ bool ntuple_pairwise::fillBranches(const pat::Jet & jet, const size_t& jetidx, c
 	pair_pca_distpv_[counter] = trkpairinfo.pca_distpv();
 	pair_pca_distance_[counter] = trkpairinfo.pca_distance();
 	pair_pca_significance_[counter] = trkpairinfo.pca_significance();
+	pair_pca_error_[counter] = trkpairinfo.pca_error();
 
 	pair_pcaSeed_x1_[counter] = trkpairinfo.pcaSeed_x();
 	pair_pcaSeed_y1_[counter] = trkpairinfo.pcaSeed_y();

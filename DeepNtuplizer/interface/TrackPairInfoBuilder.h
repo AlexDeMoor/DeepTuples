@@ -28,6 +28,7 @@ namespace deepntuples {
     const float pca_distpv() const { return pca_distpv_; }
     const float pca_distance() const { return pca_distance_; }
     const float pca_significance() const { return pca_significance_; }
+    const float pca_error() const { return pca_error_; }
     const float pcaSeed_x() const { return pcaSeed_x_; }
     const float pcaSeed_y() const { return pcaSeed_y_; }
     const float pcaSeed_z() const { return pcaSeed_z_; }
@@ -68,6 +69,7 @@ namespace deepntuples {
     float pca_distpv_;
     float pca_distance_;
     float pca_significance_;
+    float pca_error_;
     float pcaSeed_x_;
     float pcaSeed_y_;
     float pcaSeed_z_;

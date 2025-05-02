@@ -50,6 +50,7 @@ class ntuple_pairwise: public ntuple_content{
 
   float pair_pca_distpv_[max_pfcand_];
   float pair_pca_distance_[max_pfcand_];
+  float pair_pca_error_[max_pfcand_];
   float pair_pca_significance_[max_pfcand_];
 
   float pair_pcaSeed_x1_[max_pfcand_];

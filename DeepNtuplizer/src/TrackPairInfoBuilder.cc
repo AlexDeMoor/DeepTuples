@@ -23,6 +23,7 @@ namespace deepntuples {
     pca_distpv_(0),
     pca_distance_(0),
     pca_significance_(0),
+    pca_error_(0),
 
     pcaSeed_x_(0),
     pcaSeed_y_(0),
@@ -114,6 +115,7 @@ namespace deepntuples {
       pca_distpv_ = cptopv;
       pca_distance_ = distance;
       pca_significance_ = m.significance();
+      pca_error_ = m.error();
 
       pcaSeed_x_ = seedPosition.x();
       pcaSeed_y_ = seedPosition.y();
