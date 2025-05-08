@@ -96,6 +96,8 @@ class ntuple_LT: public ntuple_content{
   float LT_HadFrac_[max_ltcand_];
   float LT_CaloFrac_[max_ltcand_];
 
+  float LT_tau_signal_[max_ltcand_];
+
   float mindrsvltcand(const pat::PackedCandidate* pfcand);
   float mindistsvltcandold(const reco::TransientTrack track);
   float mindistsvltcand(const reco::TransientTrack track);

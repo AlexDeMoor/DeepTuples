@@ -201,6 +201,7 @@ void ntuple_LT::initBranches(TTree* tree){
   addBranch(tree,"LT_chi2",&LT_chi2_,"LT_chi2_[n_LTcand_]/F");
   addBranch(tree,"LT_quality",&LT_quality_,"LT_quality_[n_LTcand_]/F");
   
+  addBranch(tree,"LT_tau_signal",&LT_tau_signal_,"LT_tau_signal_[n_LTcand_]/F");
   addBranch(tree,"LT_lostInnerHits",&LT_lostInnerHits_,"LT_lostInnerHits_[n_LTcand_]/F");
   addBranch(tree,"LT_numberOfPixelHits",&LT_numberOfPixelHits_,"LT_numberOfPixelHits_[n_LTcand_]/F");
   addBranch(tree,"LT_numberOfStripHits",&LT_numberOfStripHits_,"LT_numberOfStripHits_[n_LTcand_]/F");
@@ -229,6 +230,24 @@ bool ntuple_LT::fillBranches(const pat::Jet & jet, const size_t& jetidx, const  
 
     const float jet_uncorr_pt=jet.correctedJet("Uncorrected").pt();
     const float jet_uncorr_e=jet.correctedJet("Uncorrected").energy();
+
+    // tau signal candidates
+    float min_pt_for_taus_ = 5.0;
+    float max_eta_for_taus_ = 2.5;
+    
+    std::vector<math::XYZTLorentzVector> tau_pfcandidates;
+    const auto taus = Taus();
+    for (size_t itau = 0; itau < taus->size(); itau++) {
+      if (taus->at(itau).pt() < min_pt_for_taus_)
+	continue;
+      if (fabs(taus->at(itau).eta()) > max_eta_for_taus_)
+	continue;
+      for (unsigned ipart = 0; ipart < taus->at(itau).signalCands().size(); ipart++) {
+	const pat::PackedCandidate *pfcand =
+          dynamic_cast<const pat::PackedCandidate *>(taus->at(itau).signalCands()[ipart].get());
+	tau_pfcandidates.push_back(pfcand->p4());
+      }
+    }
 
     TrackInfoBuilder trackinfo(builder);
     int n_lts = 0;
@@ -353,6 +372,11 @@ bool ntuple_LT::fillBranches(const pat::Jet & jet, const size_t& jetidx, const  
 	LT_quality_[fillntupleentry] = PackedCandidate_->hasTrackDetails() ? PackedCandidate_->pseudoTrack().qualityMask() : (1 << reco::TrackBase::loose);
 
 	LT_drminsv_[fillntupleentry] = catchInfsAndBound(drminltcandsv_,0,-0.4,0,-0.4);
+	// tau specific prior to any puppi weight application
+	if (std::find(tau_pfcandidates.begin(), tau_pfcandidates.end(), PackedCandidate_->p4()) != tau_pfcandidates.end())
+	  LT_tau_signal_[fillntupleentry] = 1.0;
+	else
+	  LT_tau_signal_[fillntupleentry] = 0.0;
 
 	LT_lostInnerHits_[fillntupleentry] = catchInfs(PackedCandidate_->lostInnerHits(),2);
 	LT_numberOfPixelHits_[fillntupleentry] = catchInfs(PackedCandidate_->numberOfPixelHits(),-1);

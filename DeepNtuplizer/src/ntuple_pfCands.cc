@@ -509,6 +509,12 @@ bool ntuple_pfCands::fillBranches(const pat::Jet & jet, const size_t& jetidx, co
             Npfcan_pdgID_[fillntupleentry] = pdgid_;
 
             Npfcan_drminsv_[fillntupleentry] = catchInfsAndBound(drminpfcandsv_,0,-0.4,0,-0.4);
+	    // tau specific prior to any puppi weight application
+	    if (std::find(tau_pfcandidates.begin(), tau_pfcandidates.end(), PackedCandidate_->p4()) != tau_pfcandidates.end())
+	      Npfcan_tau_signal_[fillntupleentry] = 1.0;
+	    else
+	      Npfcan_tau_signal_[fillntupleentry] = 0.0;
+
 
         }
     }
