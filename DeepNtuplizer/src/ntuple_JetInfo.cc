@@ -416,11 +416,11 @@ bool ntuple_JetInfo::fillBranches(const pat::Jet & jet, const size_t& jetidx, co
     static float dRCone        = 0.2;
     static float dRMatchingPF  = 0.1;
     static float ptGenLeptonMin = 8;
-    static float ptGenTauVisibleMin = 15;
+    static float ptGenTauVisibleMin = 8;
 
     /// cuts ///
     bool returnval=true;
-    if ( jet.pt() < jetPtMin_ ||  jet.pt() > jetPtMax_ ) returnval=false;                  // apply jet pT cut
+    if ( jet.correctedJet("Uncorrected").pt() < jetPtMin_ ||  jet.correctedJet("Uncorrected").pt() > jetPtMax_ ) returnval=false;                  // apply jet pT cut
     if ( fabs(jet.eta()) < jetAbsEtaMin_ || fabs(jet.eta()) > jetAbsEtaMax_ ) returnval=false; // apply jet eta cut
     if (gluonReduction_>0 && jet.partonFlavour()==21 && MC_)
         if(TRandom_.Uniform()>gluonReduction_) returnval=false;
