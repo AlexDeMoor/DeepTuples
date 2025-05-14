@@ -1,7 +1,7 @@
 ### Code from Raffaele Gerosa : https://gitlab.cern.ch/rgerosa/particlenetstudiesrun2 ###
 import FWCore.ParameterSet.Config as cms
 
-def emuSelection(process,scoreLabel="pfParticleNetAK4base"):
+def emuSelection(process,scoreLabel="pfParticleNetFromMiniAODAK4PuppiCentral"):
     
     ## trigger selection
     process.triggerResultFilter = cms.EDFilter('TriggerResultsFilter',
