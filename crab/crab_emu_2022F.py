@@ -15,8 +15,8 @@ config.JobType.numCores    = 1
 
 config.Debug.extraJDL = ['+CMS_ALLOW_OVERFLOW=False']
 
-config.Data.inputDataset = "/Muon/Run2022F-22Sep2023-v2/MINIAOD"
-config.Data.outLFNDirBase = "/store/group/phys_btag/ParT_2024/Data_samples_nom/emu/2022F"
+config.Data.inputDataset = "/Muon/Run2022F-19Dec2023-v1/MINIAOD"
+config.Data.outLFNDirBase = "/store/group/phys_btag/ParticleEdge/Edge_dataset/Domain_data/emu/2022F"
 config.Data.outputDatasetTag = "part_2024"
 config.Data.inputDBS = "global"
 config.Data.publishDBS = "phys03"

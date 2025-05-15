@@ -3,20 +3,20 @@ from CRABClient.UserUtilities import config
 
 config = config()
 
-config.General.requestName = 'dimu_muon_2022G'
+config.General.requestName = 'emu_muon_2022E'
 config.General.workArea = 'crab_projects'
 config.General.transferLogs = True
 
 config.JobType.pluginName = 'Analysis'
-config.JobType.psetName = '../DeepNtuplizer/production/DeepNtuplizer_dimu.py'
+config.JobType.psetName = '../DeepNtuplizer/production/DeepNtuplizer_emu.py'
 config.JobType.allowUndistributedCMSSW = True
 config.JobType.maxMemoryMB = 2500
 config.JobType.numCores    = 1
 
 config.Debug.extraJDL = ['+CMS_ALLOW_OVERFLOW=False']
 
-config.Data.inputDataset = "/Muon/Run2022G-19Dec2023-v2/MINIAOD"
-config.Data.outLFNDirBase = "/store/group/phys_btag/ParticleEdge/Edge_dataset/Domain_data/dimu/2022G"
+config.Data.inputDataset = "/Muon/Run2022E-22Sep2023-v1/MINIAOD"
+config.Data.outLFNDirBase = "/store/group/phys_btag/ParticleEdge/Edge_dataset/Domain_data/emu/2022E"
 config.Data.outputDatasetTag = "part_2024"
 config.Data.inputDBS = "global"
 config.Data.publishDBS = "phys03"
