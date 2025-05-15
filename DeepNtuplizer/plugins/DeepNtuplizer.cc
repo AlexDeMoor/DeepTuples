@@ -111,6 +111,7 @@ private:
   std::vector<std::string> module_names_;
 
   bool applySelection_;
+  bool isMC_;
 };
 
 DeepNtuplizer::DeepNtuplizer(const edm::ParameterSet& iConfig):
@@ -131,7 +132,7 @@ DeepNtuplizer::DeepNtuplizer(const edm::ParameterSet& iConfig):
    *  modules don't interact.
    */
   // read configuration parameters
-  const bool isMC_ = iConfig.getParameter<bool>("MC");
+  isMC_ = iConfig.getParameter<bool>("MC");
   const bool isDomain_ = iConfig.getParameter<bool>("Domain");
   const double jetR = iConfig.getParameter<double>("jetR");
   const bool  runFatJets_ = iConfig.getParameter<bool>("runFatJet");
@@ -243,10 +244,12 @@ DeepNtuplizer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 
   edm::Handle<std::vector<reco::VertexCompositePtrCandidate> > v0_ks;
   iEvent.getByToken(v0KsToken_, v0_ks);
-  
-  edm::Handle<std::vector<PileupSummaryInfo> > pupInfo;
-  iEvent.getByToken(puToken_, pupInfo);
 
+  edm::Handle<std::vector<PileupSummaryInfo> > pupInfo;
+  if(isMC_){
+    iEvent.getByToken(puToken_, pupInfo);
+  }
+  
   edm::Handle<double> rhoInfo;
   iEvent.getByToken(rhoToken_,rhoInfo);
 
@@ -263,7 +266,9 @@ DeepNtuplizer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
     m->setSecVertices(secvertices.product());
     m->setV0ks(v0_ks.product());
     m->setTaus(taus.product());
-    m->setPuInfo(pupInfo.product());
+    if(isMC_){
+      m->setPuInfo(pupInfo.product());
+    }
     m->setRhoInfo(rhoInfo.product());
     m->readSetup(iSetup);
     m->readEvent(iEvent);

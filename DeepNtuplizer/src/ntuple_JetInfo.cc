@@ -422,8 +422,12 @@ bool ntuple_JetInfo::fillBranches(const pat::Jet & jet, const size_t& jetidx, co
     bool returnval=true;
     if ( jet.correctedJet("Uncorrected").pt() < jetPtMin_ ||  jet.correctedJet("Uncorrected").pt() > jetPtMax_ ) returnval=false;                  // apply jet pT cut
     if ( fabs(jet.eta()) < jetAbsEtaMin_ || fabs(jet.eta()) > jetAbsEtaMax_ ) returnval=false; // apply jet eta cut
-    if (gluonReduction_>0 && jet.partonFlavour()==21 && MC_)
+    if (gluonReduction_==-1.0 && (abs(jet.partonFlavour())==21 | abs(jet.partonFlavour())==3 | abs(jet.partonFlavour())==2 | abs(jet.partonFlavour())==1) && MC_){
+      returnval=false;
+    }
+    else if (gluonReduction_>0 && jet.partonFlavour()==21 && MC_){
         if(TRandom_.Uniform()>gluonReduction_) returnval=false;
+    }
     //branch fills
     for(auto& entry : discriminators_) {
         entry.second = catchInfs(jet.bDiscriminator(entry.first),-0.1);
