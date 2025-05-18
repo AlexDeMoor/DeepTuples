@@ -47,7 +47,7 @@ public:
 
   void setQglToken(edm::EDGetTokenT<edm::ValueMap<float> > qglToken) {
     qglToken_ = qglToken;
-  }
+    }
 
   void setGenJetMatchReclusterToken(
 				    edm::EDGetTokenT<edm::Association<reco::GenJetCollection> > genJetMatchReclusterToken) {
@@ -299,7 +299,6 @@ public:
   float QG_ptD_;
   float QG_axis2_;
   float QG_mult_;
-
 
   float y_multiplicity_;
   float y_charged_multiplicity_;

@@ -18,7 +18,7 @@ options.register('puppi', True, VarParsing.VarParsing.multiplicity.singleton, Va
 options.register('eta', False, VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.bool, "use eta up to 5.0")
 options.register('isMC', False, VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.bool, "use MC info (gen) or not")
 options.register('isDomain', True, VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.bool, "Flag as domain event jets or not")
-options.register('isemu', False, VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.bool, "use emu info (gen) or not")
+options.register('isemu', Falsee, VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.bool, "use emu info (gen) or not")
 options.register('ismutau', False, VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.bool, "use mutau info (gen) or not")
 options.register('isdimu', True, VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.bool, "use dimu info (gen) or not")
 
@@ -221,10 +221,11 @@ else:
   raise ValueError('I could not find updatedPatJetsTransientCorrectedDeepFlavour to embed the tagInfos, please check the cfg')
 
 # QGLikelihood
-process.load("DeepNTuples.DeepNtuplizer.QGLikelihood_cfi")
-process.es_prefer_jec = cms.ESPrefer("PoolDBESSource", "QGPoolDBESSource")
-process.load('RecoJets.JetProducers.QGTagger_cfi')
-process.QGTagger.jetsLabel = cms.string('QGL_AK4PFchs')
+if options.isMC:
+    process.load("DeepNTuples.DeepNtuplizer.QGLikelihood_cfi")
+    process.es_prefer_jec = cms.ESPrefer("PoolDBESSource", "QGPoolDBESSource")
+    process.load('RecoJets.JetProducers.QGTagger_cfi')
+    process.QGTagger.jetsLabel = cms.string('QGL_AK4PFchs')
 
 if options.isMC:
     from RecoJets.JetProducers.ak4GenJets_cfi import ak4GenJets
@@ -311,24 +312,28 @@ if options.isdimu:
     process.load('DeepNTuples.DeepNtuplizer.dimu_skim_cff');
     process.deepntuplizer.leptonPairs = cms.InputTag("dimuonPairs")
     process.deepntuplizer.jets = cms.InputTag('selectedCleanJets')
-    process.QGTagger.srcJets   = cms.InputTag("selectedCleanJets")
+    if options.isMC:
+        process.QGTagger.srcJets   = cms.InputTag("selectedCleanJets")
 elif options.isemu:
     from DeepNTuples.DeepNtuplizer.emu_skim_cff import emuSelection
     print ("add emu process selection")
     process = emuSelection(process,"pfParticleNetFromMiniAODAK4PuppiCentral");
     process.deepntuplizer.leptonPairs = cms.InputTag("emuPairs")
     process.deepntuplizer.jets = cms.InputTag('selectedCleanJets')
-    process.QGTagger.srcJets   = cms.InputTag("selectedCleanJets")
+    if options.isMC:
+        process.QGTagger.srcJets   = cms.InputTag("selectedCleanJets")
 elif options.ismutau:
     from DeepNTuples.DeepNtuplizer.mutau_skim_cff import mutauSelection
     print ("add mutau process selection")
     process = mutauSelection(process,"pfParticleNetFromMiniAODAK4PuppiCentral");
     process.deepntuplizer.leptonPairs = cms.InputTag("mutauPairs")
     process.deepntuplizer.jets = cms.InputTag('selectedCleanJets')
-    process.QGTagger.srcJets   = cms.InputTag("selectedCleanJets")
+    if options.isMC:
+        process.QGTagger.srcJets   = cms.InputTag("selectedCleanJets")
 else:
     process.deepntuplizer.jets = cms.InputTag('selectedUpdatedPatJetsDeepFlavour')
-    process.QGTagger.srcJets   = cms.InputTag("selectedUpdatedPatJetsDeepFlavour")
+    if options.isMC:
+        process.QGTagger.srcJets   = cms.InputTag("selectedUpdatedPatJetsDeepFlavour")
 
 process.deepntuplizer.bDiscriminators = bTagDiscriminators 
 process.deepntuplizer.LooseSVs = cms.InputTag("looseIVFinclusiveCandidateSecondaryVertices")
@@ -411,7 +416,8 @@ elif (options.isMC and options.ismutau):
     )
 elif (options.isMC): #OG Ntupler
     process.p = cms.Path(
-        process.QGTagger + process.deepntuplizer,
+        process.QGTagger+
+        process.deepntuplizer,
         process.tsk, 
         process.patAlgosToolsTask, 
         process.genJetReclusterTask, 
@@ -421,20 +427,20 @@ elif (options.isemu): #Data+Skimming
     process.p = cms.Path(
         process.leptonSelection *
         process.jetSelection *
-        process.QGTagger + process.deepntuplizer,
+        process.deepntuplizer,
         process.tsk, 
     )
 elif (options.isdimu): #Data+Skimming
     process.p = cms.Path(
         process.leptonSelection *
         process.jetSelection *
-        process.QGTagger + process.deepntuplizer,
+        process.deepntuplizer,
         process.tsk, 
     )
 elif (options.ismutau): #Data+Skimming
     process.p = cms.Path(
         process.leptonSelection *
         process.jetSelection *
-        process.QGTagger + process.deepntuplizer,
+        process.deepntuplizer,
         process.tsk, 
     )

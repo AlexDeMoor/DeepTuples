@@ -166,12 +166,12 @@ void ntuple_JetInfo::initBranches(TTree* tree){
 
 void ntuple_JetInfo::readEvent(const edm::Event& iEvent){
 
-    iEvent.getByToken(qglToken_, qglHandle);
-    iEvent.getByToken(ptDToken_, ptDHandle);
-    iEvent.getByToken(axis2Token_, axis2Handle);
-    iEvent.getByToken(multToken_, multHandle);
-
     if(MC_){
+      iEvent.getByToken(qglToken_, qglHandle);
+      iEvent.getByToken(ptDToken_, ptDHandle);
+      iEvent.getByToken(axis2Token_, axis2Handle);
+      iEvent.getByToken(multToken_, multHandle);
+
       iEvent.getByToken(genJetMatchReclusterToken_, genJetMatchRecluster);
       iEvent.getByToken(genJetMatchWithNuToken_, genJetMatchWithNu);
       iEvent.getByToken(genJetMatchAllowDuplicatesToken_, genJetMatchAllowDuplicates);
@@ -422,12 +422,6 @@ bool ntuple_JetInfo::fillBranches(const pat::Jet & jet, const size_t& jetidx, co
     bool returnval=true;
     if ( jet.correctedJet("Uncorrected").pt() < jetPtMin_ ||  jet.correctedJet("Uncorrected").pt() > jetPtMax_ ) returnval=false;                  // apply jet pT cut
     if ( fabs(jet.eta()) < jetAbsEtaMin_ || fabs(jet.eta()) > jetAbsEtaMax_ ) returnval=false; // apply jet eta cut
-    if (gluonReduction_==-1.0 && (abs(jet.partonFlavour())==21 | abs(jet.partonFlavour())==3 | abs(jet.partonFlavour())==2 | abs(jet.partonFlavour())==1) && MC_){
-      returnval=false;
-    }
-    else if (gluonReduction_>0 && jet.partonFlavour()==21 && MC_){
-        if(TRandom_.Uniform()>gluonReduction_) returnval=false;
-    }
     //branch fills
     for(auto& entry : discriminators_) {
         entry.second = catchInfs(jet.bDiscriminator(entry.first),-0.1);
@@ -438,12 +432,7 @@ bool ntuple_JetInfo::fillBranches(const pat::Jet & jet, const size_t& jetidx, co
     jet_no_=jetidx;
 
     const auto jetRef = reco::CandidatePtr(coll->ptrs().at( jetidx));
-
-    jet_qgl_ = (*qglHandle)[jetRef];
-    QG_ptD_ = (*ptDHandle)[jetRef];
-    QG_axis2_ = (*axis2Handle)[jetRef];
-    QG_mult_ = (*multHandle)[jetRef];
-
+    
     jet_pt_ = jet.correctedJet("Uncorrected").pt();
     jet_eta_ = jet.eta();
     jet_phi_ = jet.phi();
@@ -462,6 +451,17 @@ bool ntuple_JetInfo::fillBranches(const pat::Jet & jet, const size_t& jetidx, co
     electrons_number_ = elecIds.size();
 
     if(MC_){
+      if (gluonReduction_==-1.0 && (abs(jet.partonFlavour())==21 | abs(jet.partonFlavour())==3 | abs(jet.partonFlavour())==2 | abs(jet.partonFlavour())==1) && MC_){
+	returnval=false;
+      }
+      else if (gluonReduction_>0 && jet.partonFlavour()==21 && MC_){
+        if(TRandom_.Uniform()>gluonReduction_) returnval=false;
+      }
+      jet_qgl_ = (*qglHandle)[jetRef];
+      QG_ptD_ = (*ptDHandle)[jetRef];
+      QG_axis2_ = (*axis2Handle)[jetRef];
+      QG_mult_ = (*multHandle)[jetRef];
+      
       // Gen leptons from resonance decay 
       std::vector<TLorentzVector> genLepFromResonance4V;
       std::vector<TLorentzVector> genMuonsFromResonance4V;
@@ -994,7 +994,7 @@ bool ntuple_JetInfo::fillBranches(const pat::Jet & jet, const size_t& jetidx, co
       
     }
 
-    auto qgtuple=yuta::calcVariables(&jet);
+    /*auto qgtuple=yuta::calcVariables(&jet);
 
     y_multiplicity_=std::get<0>(qgtuple);
     y_charged_multiplicity_=std::get<1>(qgtuple);
@@ -1002,7 +1002,7 @@ bool ntuple_JetInfo::fillBranches(const pat::Jet & jet, const size_t& jetidx, co
     y_ptD_    =  std::get<3>(qgtuple);
     y_axis1_  =  std::get<4>(qgtuple);
     y_axis2_  =  std::get<5>(qgtuple);
-    y_pt_dr_log_=std::get<6>(qgtuple);
+    y_pt_dr_log_=std::get<6>(qgtuple);*/
 
     return returnval;
 }
