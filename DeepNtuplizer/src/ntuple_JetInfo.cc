@@ -97,41 +97,41 @@ void ntuple_JetInfo::initBranches(TTree* tree){
     addBranch(tree,"isUndefined",&isUndefined_, "isUndefined_/I");
     addBranch(tree,"genDecay",&genDecay_, "genDecay_/F"); //dxy corresponds to the distance the Bhadron traveled
     
-    addBranch(tree,"jet_hflav", &jet_hflav_);
-    addBranch(tree,"jet_pflav", &jet_pflav_);
-    addBranch(tree,"jet_phflav", &jet_phflav_);
+    addBranch(tree,"jet_hflav", &jet_hflav_, "jet_hflav_/I");
+    addBranch(tree,"jet_pflav", &jet_pflav_, "jet_pflav_/I");
+    addBranch(tree,"jet_phflav", &jet_phflav_, "jet_phflav_/I");
 
     // jet regression
-    addBranch(tree,"jet_genmatch_pt", &jet_genmatch_pt_);
-    addBranch(tree,"jet_genmatch_eta", &jet_genmatch_eta_);
-    addBranch(tree,"jet_genmatch_phi", &jet_genmatch_phi_);
-    addBranch(tree,"jet_genmatch_wnu_pt", &jet_genmatch_wnu_pt_);
-    addBranch(tree,"jet_genmatch_wnu_eta", &jet_genmatch_wnu_eta_);
-    addBranch(tree,"jet_genmatch_wnu_phi", &jet_genmatch_wnu_phi_);
-    addBranch(tree,"jet_genmatch_lep_vis_pt", &jet_genmatch_lep_vis_pt_);
-    addBranch(tree,"jet_genmatch_lep_pt", &jet_genmatch_lep_pt_);
-    addBranch(tree,"jet_mumatch_pt", &jet_mumatch_pt_);
-    addBranch(tree,"jet_elematch_pt", &jet_elematch_pt_);
-    addBranch(tree,"jet_taumatch_pt", &jet_taumatch_pt_);
+    addBranch(tree,"jet_genmatch_pt", &jet_genmatch_pt_, "jet_genmatch_pt_/F");
+    addBranch(tree,"jet_genmatch_eta", &jet_genmatch_eta_, "jet_genmatch_eta_/F");
+    addBranch(tree,"jet_genmatch_phi", &jet_genmatch_phi_, "jet_genmatch_phi_/F");
+    addBranch(tree,"jet_genmatch_wnu_pt", &jet_genmatch_wnu_pt_, "jet_genmatch_wnu_pt_/F");
+    addBranch(tree,"jet_genmatch_wnu_eta", &jet_genmatch_wnu_eta_, "jet_genmatch_wnu_eta_/F");
+    addBranch(tree,"jet_genmatch_wnu_phi", &jet_genmatch_wnu_phi_, "jet_genmatch_wnu_phi_/F");
+    addBranch(tree,"jet_genmatch_lep_vis_pt", &jet_genmatch_lep_vis_pt_, "jet_genmatch_lep_vis_pt_/F");
+    addBranch(tree,"jet_genmatch_lep_pt", &jet_genmatch_lep_pt_, "jet_genmatch_lep_pt_/F");
+    addBranch(tree,"jet_mumatch_pt", &jet_mumatch_pt_, "jet_mumatch_pt_/F");
+    addBranch(tree,"jet_elematch_pt", &jet_elematch_pt_, "jet_elematch_pt_/F");
+    addBranch(tree,"jet_taumatch_pt", &jet_taumatch_pt_, "jet_taumatch_pt_/F");
 
     // jet variables
-    addBranch(tree,"jet_pt", &jet_pt_);
-    addBranch(tree,"jet_corr_pt", &jet_corr_pt_);
-    addBranch(tree,"jet_eta", &jet_eta_);
-    addBranch(tree,"jet_phi", &jet_phi_);
-    addBranch(tree,"jet_mass", &jet_mass_);
-    addBranch(tree,"jet_energy", &jet_energy_);
+    addBranch(tree,"jet_pt", &jet_pt_, "jet_pt_/F");
+    addBranch(tree,"jet_corr_pt", &jet_corr_pt_, "jet_corr_pt_/F");
+    addBranch(tree,"jet_eta", &jet_eta_, "jet_eta_/F");
+    addBranch(tree,"jet_phi", &jet_phi_, "jet_phi_/F");
+    addBranch(tree,"jet_mass", &jet_mass_, "jet_mass_/F");
+    addBranch(tree,"jet_energy", &jet_energy_, "jet_energy_/F");
 
     //jet id
-    addBranch(tree,"jet_looseId", &jet_looseId_);
-    addBranch(tree,"jet_jetId", &jet_jetId_);
-    addBranch(tree,"jet_puId", &jet_puId_); 
+    addBranch(tree,"jet_looseId", &jet_looseId_, "jet_looseId_/F");
+    addBranch(tree,"jet_jetId", &jet_jetId_, "jet_jetId_/I");
+    addBranch(tree,"jet_puId", &jet_puId_, "jet_puId_/I"); 
 
     // quark gluon
-    addBranch(tree,"jet_qgl",   &jet_qgl_);  // qg tagger from jmar
+    /*addBranch(tree,"jet_qgl",   &jet_qgl_);  // qg tagger from jmar
     addBranch(tree,"QG_ptD",   &QG_ptD_);   // momentum fraction per jet constituent
     addBranch(tree,"QG_axis2", &QG_axis2_); // jet shape i.e. gluon are wider than quarks
-    addBranch(tree,"QG_mult",  &QG_mult_);  // multiplicity i.e. total num of PFcands reconstructed
+    addBranch(tree,"QG_mult",  &QG_mult_);  // multiplicity i.e. total num of PFcands reconstructed*/
 
     addBranch(tree,"gen_pt_Recluster"    ,&gen_pt_Recluster_    ,"gen_pt_Recluster_/F"    );
     addBranch(tree,"gen_pt_WithNu"    ,&gen_pt_WithNu_    ,"gen_pt_WithNu_/F"    );
@@ -166,12 +166,12 @@ void ntuple_JetInfo::initBranches(TTree* tree){
 
 void ntuple_JetInfo::readEvent(const edm::Event& iEvent){
 
-    if(MC_){
-      iEvent.getByToken(qglToken_, qglHandle);
-      iEvent.getByToken(ptDToken_, ptDHandle);
-      iEvent.getByToken(axis2Token_, axis2Handle);
-      iEvent.getByToken(multToken_, multHandle);
+  iEvent.getByToken(qglToken_, qglHandle);
+  iEvent.getByToken(ptDToken_, ptDHandle);
+  iEvent.getByToken(axis2Token_, axis2Handle);
+  iEvent.getByToken(multToken_, multHandle);
 
+    if(MC_){
       iEvent.getByToken(genJetMatchReclusterToken_, genJetMatchRecluster);
       iEvent.getByToken(genJetMatchWithNuToken_, genJetMatchWithNu);
       iEvent.getByToken(genJetMatchAllowDuplicatesToken_, genJetMatchAllowDuplicates);
@@ -449,6 +449,10 @@ bool ntuple_JetInfo::fillBranches(const pat::Jet & jet, const size_t& jetidx, co
 
     muons_number_ = muIds.size();
     electrons_number_ = elecIds.size();
+    jet_qgl_ = (*qglHandle)[jetRef];
+    QG_ptD_ = (*ptDHandle)[jetRef];
+    QG_axis2_ = (*axis2Handle)[jetRef];
+    QG_mult_ = (*multHandle)[jetRef];
 
     if(MC_){
       if (gluonReduction_==-1.0 && (abs(jet.partonFlavour())==21 | abs(jet.partonFlavour())==3 | abs(jet.partonFlavour())==2 | abs(jet.partonFlavour())==1) && MC_){
@@ -457,10 +461,6 @@ bool ntuple_JetInfo::fillBranches(const pat::Jet & jet, const size_t& jetidx, co
       else if (gluonReduction_>0 && jet.partonFlavour()==21 && MC_){
         if(TRandom_.Uniform()>gluonReduction_) returnval=false;
       }
-      jet_qgl_ = (*qglHandle)[jetRef];
-      QG_ptD_ = (*ptDHandle)[jetRef];
-      QG_axis2_ = (*axis2Handle)[jetRef];
-      QG_mult_ = (*multHandle)[jetRef];
       
       // Gen leptons from resonance decay 
       std::vector<TLorentzVector> genLepFromResonance4V;

@@ -298,7 +298,7 @@ public:
   float jet_qgl_;
   float QG_ptD_;
   float QG_axis2_;
-  float QG_mult_;
+  int QG_mult_;
 
   float y_multiplicity_;
   float y_charged_multiplicity_;

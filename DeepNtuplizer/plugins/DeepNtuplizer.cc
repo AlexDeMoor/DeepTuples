@@ -160,12 +160,10 @@ DeepNtuplizer::DeepNtuplizer(const edm::ParameterSet& iConfig):
   addModule(v0ksmodule, "V0KsNtuple");
 
   ntuple_JetInfo* jetinfo=new ntuple_JetInfo();
-  if(isMC_){
-    jetinfo->setQglToken(consumes<edm::ValueMap<float>>(edm::InputTag(t_qgtagger, "qgLikelihood")));
-    jetinfo->setPtDToken(consumes<edm::ValueMap<float>>(edm::InputTag(t_qgtagger, "ptD")));
-    jetinfo->setAxis2Token(consumes<edm::ValueMap<float>>(edm::InputTag(t_qgtagger, "axis2")));
-    jetinfo->setMultToken(consumes<edm::ValueMap<int>>(edm::InputTag(t_qgtagger, "mult")));
-  }
+  jetinfo->setQglToken(consumes<edm::ValueMap<float>>(edm::InputTag(t_qgtagger, "qgLikelihood")));
+  jetinfo->setPtDToken(consumes<edm::ValueMap<float>>(edm::InputTag(t_qgtagger, "ptD")));
+  jetinfo->setAxis2Token(consumes<edm::ValueMap<float>>(edm::InputTag(t_qgtagger, "axis2")));
+  jetinfo->setMultToken(consumes<edm::ValueMap<int>>(edm::InputTag(t_qgtagger, "mult")));
   jetinfo->setUseHerwigCompatibleMatching(useHerwigCompatibleMatching);
   jetinfo->setIsHerwig(isHerwig);
 
