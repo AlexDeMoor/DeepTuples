@@ -92,7 +92,6 @@ private:
   edm::EDGetTokenT<double> rhoToken_;
   edm::EDGetTokenT< edm::View<reco::BaseTagInfo> > pixHitsToken_;
   edm::EDGetTokenT<pat::TauCollection> tau_token_;
-  std::string t_qgtagger;
 
   edm::Service<TFileService> fs;
   TTree *tree_;
@@ -122,8 +121,7 @@ DeepNtuplizer::DeepNtuplizer(const edm::ParameterSet& iConfig):
   puToken_(consumes<std::vector<PileupSummaryInfo >>(iConfig.getParameter<edm::InputTag>("pupInfo"))),
   rhoToken_(consumes<double>(iConfig.getParameter<edm::InputTag>("rhoInfo"))),
   pixHitsToken_(consumes< edm::View<reco::BaseTagInfo> > (iConfig.getParameter<edm::InputTag>("pixelhit"))),
-  tau_token_(consumes<pat::TauCollection>(iConfig.getParameter<edm::InputTag>("taus"))),
-  t_qgtagger(iConfig.getParameter<std::string>("qgtagger"))
+  tau_token_(consumes<pat::TauCollection>(iConfig.getParameter<edm::InputTag>("taus")))
 {
 
   /*
@@ -160,10 +158,6 @@ DeepNtuplizer::DeepNtuplizer(const edm::ParameterSet& iConfig):
   addModule(v0ksmodule, "V0KsNtuple");
 
   ntuple_JetInfo* jetinfo=new ntuple_JetInfo();
-  jetinfo->setQglToken(consumes<edm::ValueMap<float>>(edm::InputTag(t_qgtagger, "qgLikelihood")));
-  jetinfo->setPtDToken(consumes<edm::ValueMap<float>>(edm::InputTag(t_qgtagger, "ptD")));
-  jetinfo->setAxis2Token(consumes<edm::ValueMap<float>>(edm::InputTag(t_qgtagger, "axis2")));
-  jetinfo->setMultToken(consumes<edm::ValueMap<int>>(edm::InputTag(t_qgtagger, "mult")));
   jetinfo->setUseHerwigCompatibleMatching(useHerwigCompatibleMatching);
   jetinfo->setIsHerwig(isHerwig);
 

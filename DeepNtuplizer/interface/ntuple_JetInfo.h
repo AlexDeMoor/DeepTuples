@@ -33,22 +33,6 @@ public:
 
   bool fillBranches(const pat::Jet &, const size_t& jetidx, const  edm::View<pat::Jet> * coll=0);
 
-  void setAxis2Token(edm::EDGetTokenT<edm::ValueMap<float> > axis2Token) {
-    axis2Token_ = axis2Token;
-  }
-
-  void setMultToken(edm::EDGetTokenT<edm::ValueMap<int> > multToken) {
-    multToken_ = multToken;
-  }
-
-  void setPtDToken(edm::EDGetTokenT<edm::ValueMap<float> > ptDToken) {
-    ptDToken_ = ptDToken;
-  }
-
-  void setQglToken(edm::EDGetTokenT<edm::ValueMap<float> > qglToken) {
-    qglToken_ = qglToken;
-    }
-
   void setGenJetMatchReclusterToken(
 				    edm::EDGetTokenT<edm::Association<reco::GenJetCollection> > genJetMatchReclusterToken) {
     genJetMatchReclusterToken_ = genJetMatchReclusterToken;
@@ -103,17 +87,6 @@ public:
   double                    jetPtMax_;
   double                    jetAbsEtaMin_;
   double                    jetAbsEtaMax_;
-
-  //Quark gluon likelihood
-  edm::EDGetTokenT<edm::ValueMap<float>>   qglToken_;
-  edm::EDGetTokenT<edm::ValueMap<float>>   ptDToken_;
-  edm::EDGetTokenT<edm::ValueMap<float>>   axis2Token_;
-  edm::EDGetTokenT<edm::ValueMap<int>>     multToken_;
-
-  edm::Handle<edm::ValueMap<float>> qglHandle;
-  edm::Handle<edm::ValueMap<float>> ptDHandle;
-  edm::Handle<edm::ValueMap<float>> axis2Handle;
-  edm::Handle<edm::ValueMap<int>> multHandle;
 
   edm::EDGetTokenT<edm::Association<reco::GenJetCollection> > genJetMatchReclusterToken_;
   edm::EDGetTokenT<edm::Association<reco::GenJetCollection> > genJetMatchWithNuToken_;
@@ -293,20 +266,6 @@ public:
   int jet_hflav_;
   int jet_pflav_;
   int jet_phflav_;
-
-  // quark/gluon
-  float jet_qgl_;
-  float QG_ptD_;
-  float QG_axis2_;
-  int QG_mult_;
-
-  float y_multiplicity_;
-  float y_charged_multiplicity_;
-  float y_neutral_multiplicity_;
-  float y_ptD_;
-  float y_axis1_;
-  float y_axis2_;
-  float y_pt_dr_log_;
 
   static constexpr std::size_t max_num_lept = 5;
   int muons_isLooseMuon_[max_num_lept];

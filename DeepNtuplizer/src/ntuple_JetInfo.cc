@@ -127,12 +127,6 @@ void ntuple_JetInfo::initBranches(TTree* tree){
     addBranch(tree,"jet_jetId", &jet_jetId_, "jet_jetId_/I");
     addBranch(tree,"jet_puId", &jet_puId_, "jet_puId_/I"); 
 
-    // quark gluon
-    /*addBranch(tree,"jet_qgl",   &jet_qgl_);  // qg tagger from jmar
-    addBranch(tree,"QG_ptD",   &QG_ptD_);   // momentum fraction per jet constituent
-    addBranch(tree,"QG_axis2", &QG_axis2_); // jet shape i.e. gluon are wider than quarks
-    addBranch(tree,"QG_mult",  &QG_mult_);  // multiplicity i.e. total num of PFcands reconstructed*/
-
     addBranch(tree,"gen_pt_Recluster"    ,&gen_pt_Recluster_    ,"gen_pt_Recluster_/F"    );
     addBranch(tree,"gen_pt_WithNu"    ,&gen_pt_WithNu_    ,"gen_pt_WithNu_/F"    );
     addBranch(tree,"Delta_gen_pt_Recluster"    ,&Delta_gen_pt_Recluster_    ,"Delta_gen_pt_Recluster_/F"    );
@@ -165,11 +159,6 @@ void ntuple_JetInfo::initBranches(TTree* tree){
 }
 
 void ntuple_JetInfo::readEvent(const edm::Event& iEvent){
-
-  iEvent.getByToken(qglToken_, qglHandle);
-  iEvent.getByToken(ptDToken_, ptDHandle);
-  iEvent.getByToken(axis2Token_, axis2Handle);
-  iEvent.getByToken(multToken_, multHandle);
 
     if(MC_){
       iEvent.getByToken(genJetMatchReclusterToken_, genJetMatchRecluster);
@@ -449,11 +438,7 @@ bool ntuple_JetInfo::fillBranches(const pat::Jet & jet, const size_t& jetidx, co
 
     muons_number_ = muIds.size();
     electrons_number_ = elecIds.size();
-    jet_qgl_ = (*qglHandle)[jetRef];
-    QG_ptD_ = (*ptDHandle)[jetRef];
-    QG_axis2_ = (*axis2Handle)[jetRef];
-    QG_mult_ = (*multHandle)[jetRef];
-
+    
     if(MC_){
       if (gluonReduction_==-1.0 && (abs(jet.partonFlavour())==21 | abs(jet.partonFlavour())==3 | abs(jet.partonFlavour())==2 | abs(jet.partonFlavour())==1) && MC_){
 	returnval=false;
@@ -993,16 +978,6 @@ bool ntuple_JetInfo::fillBranches(const pat::Jet & jet, const size_t& jetidx, co
         Delta_gen_pt_WithNu_=gen_pt_WithNu_-jet.pt();}
       
     }
-
-    /*auto qgtuple=yuta::calcVariables(&jet);
-
-    y_multiplicity_=std::get<0>(qgtuple);
-    y_charged_multiplicity_=std::get<1>(qgtuple);
-    y_neutral_multiplicity_=std::get<2>(qgtuple);
-    y_ptD_    =  std::get<3>(qgtuple);
-    y_axis1_  =  std::get<4>(qgtuple);
-    y_axis2_  =  std::get<5>(qgtuple);
-    y_pt_dr_log_=std::get<6>(qgtuple);*/
 
     return returnval;
 }
