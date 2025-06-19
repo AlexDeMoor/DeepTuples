@@ -443,6 +443,15 @@ bool ntuple_JetInfo::fillBranches(const pat::Jet & jet, const size_t& jetidx, co
       if (gluonReduction_==-1.0 && (abs(jet.partonFlavour())==21 | abs(jet.partonFlavour())==3 | abs(jet.partonFlavour())==2 | abs(jet.partonFlavour())==1) && MC_){
 	returnval=false;
       }
+      if (gluonReduction_==-1.0 && abs(jet.partonFlavour())==4 && MC_){
+        if(TRandom_.Uniform()>0.333) returnval=false;
+      }
+      if (gluonReduction_==-2.0 && (abs(jet.partonFlavour())==21 | abs(jet.partonFlavour())==3 | abs(jet.partonFlavour())==2 | abs(jet.partonFlavour())==1) && MC_){
+	returnval=false;
+      }
+      if (gluonReduction_==-2.0 && abs(jet.partonFlavour())==4 && MC_){
+        if(TRandom_.Uniform()>0.1) returnval=false;
+      }
       else if (gluonReduction_>0 && jet.partonFlavour()==21 && MC_){
         if(TRandom_.Uniform()>gluonReduction_) returnval=false;
       }

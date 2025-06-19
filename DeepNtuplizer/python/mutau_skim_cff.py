@@ -9,7 +9,7 @@ def mutauSelection (process,scoreLabel='pfParticleNetFromMiniAODAK4PuppiCentral'
         l1tResults = cms.InputTag(''),
         l1tIgnoreMaskAndPrescale = cms.bool(False),
         throw = cms.bool(False),
-        triggerConditions = cms.vstring('HLT_IsoMu24_v*')
+        triggerConditions = cms.vstring('HLT_IsoMu*_v*')
     );
 
     ## muons selection
@@ -47,7 +47,7 @@ def mutauSelection (process,scoreLabel='pfParticleNetFromMiniAODAK4PuppiCentral'
     process.filterVetoElectrons = cms.EDFilter("PATCandViewCountFilter",
         src = cms.InputTag("vetoElectrons"),
         minNumber = cms.uint32(0),
-        maxNumber = cms.uint32(0)
+        maxNumber = cms.uint32(1)
     );
 
     ## tau selection
@@ -70,7 +70,7 @@ def mutauSelection (process,scoreLabel='pfParticleNetFromMiniAODAK4PuppiCentral'
     ## mu tau pair selection
     process.mutauPairs = cms.EDProducer("CandViewShallowCloneCombiner",
         decay = cms.string("tagMuons@+ tagTaus@-"),
-        cut = cms.string("mass > 50 && mass < 90 && deltaR(daughter(0).eta,daughter(0).phi,daughter(1).eta,daughter(1).phi) > 0.4"),
+        cut = cms.string("mass > 40 && mass < 95 && deltaR(daughter(0).eta,daughter(0).phi,daughter(1).eta,daughter(1).phi) > 0.4"),
         checkCharge = cms.bool(False)
     );
 

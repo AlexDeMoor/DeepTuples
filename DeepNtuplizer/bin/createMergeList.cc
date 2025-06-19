@@ -48,18 +48,13 @@
 #include "../interface/mergeDescriptor.h"
 
 
-
-
-
-
-
 std::vector<TString> readSampleFile(const TString& file, const TString& addpath){
     std::string line;
     std::vector<TString>  out;
     std::ifstream myfile (file.Data());
     if (myfile.is_open()){
         while ( getline (myfile,line) ){
-            out.push_back(addpath+"/"+(TString)line);
+            out.push_back((TString)line);
         }
         myfile.close();
     }
