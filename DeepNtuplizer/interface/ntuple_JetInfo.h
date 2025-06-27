@@ -287,6 +287,7 @@ public:
   bool MC_;
   bool Domain_;
   bool emu_;
+  bool ttc_;
   bool dimu_;
   bool mutau_;
   

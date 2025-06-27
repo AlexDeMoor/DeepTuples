@@ -42,6 +42,7 @@ void ntuple_JetInfo::getInput(const edm::ParameterSet& iConfig){
     MC_=(iConfig.getParameter<bool>("MC"));
     Domain_=(iConfig.getParameter<bool>("Domain"));
     emu_=(iConfig.getParameter<bool>("emu"));
+    ttc_=(iConfig.getParameter<bool>("ttc"));
     dimu_=(iConfig.getParameter<bool>("dimu"));
     mutau_=(iConfig.getParameter<bool>("mutau"));
     
@@ -398,6 +399,9 @@ bool ntuple_JetInfo::fillBranches(const pat::Jet & jet, const size_t& jetidx, co
     isMC_ = MC_ ? 1 : 0;
     isDomain_ = Domain_ ? 1 : 0;
     isemu_   =  emu_ ? 1 : 0;
+    if(ttc_){
+      isemu_ = 2;
+    }
     isdimu_  =  dimu_ ? 1 : 0;
     ismutau_ =  mutau_ ? 1 : 0;
     
