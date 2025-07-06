@@ -121,7 +121,7 @@ def emuSelection(process,scoreLabel="pfParticleNetFromMiniAODAK4PuppiCentral"):
     from PhysicsTools.PatAlgos.selectionLayer1.jetSelector_cfi import selectedPatJets
     process.selectedCleanJets = selectedPatJets.clone();
     process.selectedCleanJets.src = cms.InputTag("cleanJets");
-    process.selectedCleanJets.cut = cms.string('correctedJet("Uncorrected").pt() > 25 && abs(eta) < 2.5 && bDiscriminator("'+scoreLabel+'JetTags:probb")/(bDiscriminator("'+scoreLabel+'JetTags:probb")+bDiscriminator("'+scoreLabel+'JetTags:probc")+bDiscriminator("'+scoreLabel+'JetTags:probuds")+bDiscriminator("'+scoreLabel+'JetTags:probg")) > 0.1');
+    process.selectedCleanJets.cut = cms.string('correctedJet("Uncorrected").pt() > 25 && abs(eta) < 2.5 && (bDiscriminator("'+scoreLabel+'JetTags:probb")+bDiscriminator("'+scoreLabel+'JetTags:probbb")+bDiscriminator("'+scoreLabel+'JetTags:problepb"))/(bDiscriminator("'+scoreLabel+'JetTags:probb")+bDiscriminator("'+scoreLabel+'JetTags:probbb")+bDiscriminator("'+scoreLabel+'JetTags:problepb")+bDiscriminator("'+scoreLabel+'JetTags:probc")+bDiscriminator("'+scoreLabel+'JetTags:probu")+bDiscriminator("'+scoreLabel+'JetTags:probd")+bDiscriminator("'+scoreLabel+'JetTags:probs")+bDiscriminator("'+scoreLabel+'JetTags:probg")) > 0.1');
     process.selectedCleanJets.filter = cms.bool(False)
         
     process.filterCleanJets = cms.EDFilter("PATCandViewCountFilter",

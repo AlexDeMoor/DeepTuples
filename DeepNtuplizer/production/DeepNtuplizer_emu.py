@@ -308,7 +308,7 @@ if options.isdimu:
 elif options.isemu:
     from DeepNTuples.DeepNtuplizer.emu_skim_cff import emuSelection
     print ("add emu process selection")
-    process = emuSelection(process,"pfParticleNetFromMiniAODAK4PuppiCentral");
+    process = emuSelection(process,"pfUnifiedParticleTransformerAK4"); #Switch to UParTv2
     process.deepntuplizer.leptonPairs = cms.InputTag("emuPairs")
     process.deepntuplizer.jets = cms.InputTag('selectedCleanJets')
 elif options.ismutau:
