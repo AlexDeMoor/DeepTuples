@@ -57,8 +57,7 @@ private:
     float sv_phirel_[max_sv];
     float sv_deltaR_[max_sv];
     float sv_mass_[max_sv];
-    //  float sv_phirel_[max_sv];
-    //  float sv_etarel_[max_sv];
+
     float sv_ntracks_[max_sv];
     float sv_chi2_[max_sv];
     float sv_ndf_[max_sv];
@@ -71,16 +70,6 @@ private:
     float sv_d3dsig_[max_sv];
     float sv_costhetasvpv_[max_sv];
     float sv_enratio_[max_sv];
-
-    float sv_hcal_frac_[max_sv];
-    float sv_calo_frac_[max_sv];
-    float sv_dz_[max_sv];
-    float sv_pfd2dval_[max_sv];
-    float sv_pfd2dsig_[max_sv];
-    float sv_pfd3dval_[max_sv];
-    float sv_pfd3dsig_[max_sv];
-    float sv_puppiw_[max_sv];
-    float sv_charge_sum_[max_sv];
 
     static const reco::Vertex * spvp_;
 

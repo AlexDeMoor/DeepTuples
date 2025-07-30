@@ -166,22 +166,6 @@ void ntuple_pairwise::initBranches(TTree* tree){
   addBranch(tree,"pair_pca_distance", &pair_pca_distance_,"pair_pca_distance_[n_Cpfpairs_]/F");
   addBranch(tree,"pair_pca_significance", &pair_pca_significance_,"pair_pca_significance_[n_Cpfpairs_]/F");
   addBranch(tree,"pair_pca_error", &pair_pca_error_,"pair_pca_error_[n_Cpfpairs_]/F");
-
-  addBranch(tree,"pair_pcaSeed_x1", &pair_pcaSeed_x1_,"pair_pcaSeed_x1_[n_Cpfpairs_]/F");
-  addBranch(tree,"pair_pcaSeed_y1", &pair_pcaSeed_y1_,"pair_pcaSeed_y1_[n_Cpfpairs_]/F");
-  addBranch(tree,"pair_pcaSeed_z1", &pair_pcaSeed_z1_,"pair_pcaSeed_z1_[n_Cpfpairs_]/F");
-
-  addBranch(tree,"pair_pcaSeed_x2", &pair_pcaSeed_x2_,"pair_pcaSeed_x2_[n_Cpfpairs_]/F");
-  addBranch(tree,"pair_pcaSeed_y2", &pair_pcaSeed_y2_,"pair_pcaSeed_y2_[n_Cpfpairs_]/F");
-  addBranch(tree,"pair_pcaSeed_z2", &pair_pcaSeed_z2_,"pair_pcaSeed_z2_[n_Cpfpairs_]/F");
-
-  addBranch(tree,"pair_pcaSeed_xerr1", &pair_pcaSeed_xerr1_,"pair_pcaSeed_xerr1_[n_Cpfpairs_]/F");
-  addBranch(tree,"pair_pcaSeed_yerr1", &pair_pcaSeed_yerr1_,"pair_pcaSeed_yerr1_[n_Cpfpairs_]/F");
-  addBranch(tree,"pair_pcaSeed_zerr1", &pair_pcaSeed_zerr1_,"pair_pcaSeed_zerr1_[n_Cpfpairs_]/F");
-
-  addBranch(tree,"pair_pcaSeed_xerr2", &pair_pcaSeed_xerr2_,"pair_pcaSeed_xerr2_[n_Cpfpairs_]/F");
-  addBranch(tree,"pair_pcaSeed_yerr2", &pair_pcaSeed_yerr2_,"pair_pcaSeed_yerr2_[n_Cpfpairs_]/F");
-  addBranch(tree,"pair_pcaSeed_zerr2", &pair_pcaSeed_zerr2_,"pair_pcaSeed_zerr2_[n_Cpfpairs_]/F");
   
   addBranch(tree,"pair_dotprod1", &pair_dotprod1_,"pair_dotprod1_[n_Cpfpairs_]/F");
   addBranch(tree,"pair_dotprod2", &pair_dotprod2_,"pair_dotprod2_[n_Cpfpairs_]/F");
@@ -189,17 +173,10 @@ void ntuple_pairwise::initBranches(TTree* tree){
   addBranch(tree,"pair_pca_dist1", &pair_pca_dist1_,"pair_pca_dist1_[n_Cpfpairs_]/F");
   addBranch(tree,"pair_pca_dist2", &pair_pca_dist2_,"pair_pca_dist2_[n_Cpfpairs_]/F");
     
-  addBranch(tree,"pair_dotprod12_2D", &pair_dotprod12_2D_,"pair_dotprod12_2D_[n_Cpfpairs_]/F");
-  addBranch(tree,"pair_dotprod12_2DV", &pair_dotprod12_2DV_,"pair_dotprod12_2DV_[n_Cpfpairs_]/F");
-  addBranch(tree,"pair_dotprod12_3D", &pair_dotprod12_3D_,"pair_dotprod12_3D_[n_Cpfpairs_]/F");
-  addBranch(tree,"pair_dotprod12_3DV", &pair_dotprod12_3DV_,"pair_dotprod12_3DV_[n_Cpfpairs_]/F");
-    
   addBranch(tree,"pair_pca_jetAxis_dist", &pair_pca_jetAxis_dist_,"pair_pca_jetAxis_dist_[n_Cpfpairs_]/F");
   addBranch(tree,"pair_pca_jetAxis_dotprod", &pair_pca_jetAxis_dotprod_,"pair_pca_jetAxis_dotprod_[n_Cpfpairs_]/F");
   addBranch(tree,"pair_pca_jetAxis_dEta", &pair_pca_jetAxis_dEta_,"pair_pca_jetAxis_dEta_[n_Cpfpairs_]/F");
   addBranch(tree,"pair_pca_jetAxis_dPhi", &pair_pca_jetAxis_dPhi_,"pair_pca_jetAxis_dPhi_[n_Cpfpairs_]/F");
-  
-  addBranch(tree,"pfcand_dist_vtx_12", &pfcand_dist_vtx_12_,"pfcand_dist_vtx_12_[n_Cpfpairs_]/F");
 
 }
 
@@ -268,31 +245,11 @@ bool ntuple_pairwise::fillBranches(const pat::Jet & jet, const size_t& jetidx, c
 	const reco::TransientTrack tt = trackinfo.getTTrack();
 	
 	trkpairinfo.buildTrackPairInfo(it,tt,vertices()->at(0),jet);
-
-	//const reco::Candidate * pruned_part_match1 = Part_i_.lastPrunedRef().get();
-        //const reco::Candidate * pruned_part_match2 = Part_j_.lastPrunedRef().get();
-	float dist_vtx_12 = -1.0; //sqrt((pruned_part_match1->vertex()- pruned_part_match2->vertex()).mag2());
 	      
 	pair_pca_distpv_[counter] = trkpairinfo.pca_distpv();
 	pair_pca_distance_[counter] = trkpairinfo.pca_distance();
 	pair_pca_significance_[counter] = trkpairinfo.pca_significance();
 	pair_pca_error_[counter] = trkpairinfo.pca_error();
-
-	pair_pcaSeed_x1_[counter] = trkpairinfo.pcaSeed_x();
-	pair_pcaSeed_y1_[counter] = trkpairinfo.pcaSeed_y();
-	pair_pcaSeed_z1_[counter] = trkpairinfo.pcaSeed_z();
-
-	pair_pcaSeed_x2_[counter] = trkpairinfo.pcaTrack_x();
-	pair_pcaSeed_y2_[counter] = trkpairinfo.pcaTrack_y();
-	pair_pcaSeed_z2_[counter] = trkpairinfo.pcaTrack_z();
-
-	pair_pcaSeed_xerr1_[counter] = trkpairinfo.pcaSeed_xerr();
-	pair_pcaSeed_yerr1_[counter] = trkpairinfo.pcaSeed_yerr();
-	pair_pcaSeed_zerr1_[counter] = trkpairinfo.pcaSeed_zerr();
-
-	pair_pcaSeed_xerr2_[counter] = trkpairinfo.pcaTrack_xerr();
-	pair_pcaSeed_yerr2_[counter] = trkpairinfo.pcaTrack_yerr();
-	pair_pcaSeed_zerr2_[counter] = trkpairinfo.pcaTrack_zerr();
 
 	pair_dotprod1_[counter] = trkpairinfo.dotprodTrack();
 	pair_dotprod2_[counter] = trkpairinfo.dotprodSeed();
@@ -300,17 +257,10 @@ bool ntuple_pairwise::fillBranches(const pat::Jet & jet, const size_t& jetidx, c
 	pair_pca_dist1_[counter] = trkpairinfo.pcaSeed_dist();
 	pair_pca_dist2_[counter] = trkpairinfo.pcaTrack_dist();
 
-	pair_dotprod12_2D_[counter] = trkpairinfo.dotprodTrackSeed2D();
-	pair_dotprod12_2DV_[counter] = trkpairinfo.dotprodTrackSeed2DV();
-	pair_dotprod12_3D_[counter] = trkpairinfo.dotprodTrackSeed3D();
-	pair_dotprod12_3DV_[counter] = trkpairinfo.dotprodTrackSeed3DV();
-
 	pair_pca_jetAxis_dist_[counter] = trkpairinfo.pca_jetAxis_dist();
 	pair_pca_jetAxis_dotprod_[counter] = trkpairinfo.pca_jetAxis_dotprod();
 	pair_pca_jetAxis_dEta_[counter] = trkpairinfo.pca_jetAxis_dEta();
 	pair_pca_jetAxis_dPhi_[counter] = trkpairinfo.pca_jetAxis_dPhi();
-
-	pfcand_dist_vtx_12_[counter] = dist_vtx_12;
 	
 	counter++;
       }

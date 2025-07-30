@@ -24,7 +24,7 @@
 #include "RecoVertex/VertexTools/interface/VertexDistance3D.h"
 #include "TVector3.h"
 
-class TrackInfoBuilder{
+/*class TrackInfoBuilder{
 public:
   TrackInfoBuilder(edm::ESHandle<TransientTrackBuilder> & build):
     builder(build),
@@ -149,7 +149,7 @@ private:
   float trackJetDistSig_;
   reco::TransientTrack ttrack_;
 
-};
+  };*/
 
 const reco::Vertex * ntuple_SV::spvp_;
 
@@ -190,18 +190,6 @@ void ntuple_SV::initBranches(TTree* tree){
     addBranch(tree,(prefix_+"sv_d3dsig").c_str()      ,&sv_d3dsig_      ,(prefix_+"sv_d3dsig_["+prefix_+"sv_num_]/F").c_str()      );
     addBranch(tree,(prefix_+"sv_costhetasvpv").c_str(),&sv_costhetasvpv_,(prefix_+"sv_costhetasvpv_["+prefix_+"sv_num_]/F").c_str());
     addBranch(tree,(prefix_+"sv_enratio").c_str()     ,&sv_enratio_     ,(prefix_+"sv_enratio_["+prefix_+"sv_num_]/F").c_str());
-
-    addBranch(tree,(prefix_+"sv_hcal_frac").c_str()     ,&sv_hcal_frac_     ,(prefix_+"sv_hcal_frac_["+prefix_+"sv_num_]/F").c_str());
-    addBranch(tree,(prefix_+"sv_calo_frac").c_str()     ,&sv_calo_frac_     ,(prefix_+"sv_calo_frac_["+prefix_+"sv_num_]/F").c_str());
-
-    addBranch(tree,(prefix_+"sv_dz").c_str()     ,&sv_dz_     ,(prefix_+"sv_dz_["+prefix_+"sv_num_]/F").c_str());
-    addBranch(tree,(prefix_+"sv_pfd2dval").c_str()     ,&sv_pfd2dval_     ,(prefix_+"sv_pfd2dval_["+prefix_+"sv_num_]/F").c_str());
-    addBranch(tree,(prefix_+"sv_pfd2dsig").c_str()     ,&sv_pfd2dsig_     ,(prefix_+"sv_pfd2dsig_["+prefix_+"sv_num_]/F").c_str());
-    addBranch(tree,(prefix_+"sv_pfd3dval").c_str()     ,&sv_pfd3dval_     ,(prefix_+"sv_pfd3dval_["+prefix_+"sv_num_]/F").c_str());
-    addBranch(tree,(prefix_+"sv_pfd3dsig").c_str()     ,&sv_pfd3dsig_     ,(prefix_+"sv_pfd3dsig_["+prefix_+"sv_num_]/F").c_str());
-    addBranch(tree,(prefix_+"sv_puppiw").c_str()     ,&sv_puppiw_     ,(prefix_+"sv_puppiw_["+prefix_+"sv_num_]/F").c_str());
-    addBranch(tree,(prefix_+"sv_charge_sum").c_str()     ,&sv_charge_sum_     ,(prefix_+"sv_charge_sum_["+prefix_+"sv_num_]/F").c_str());
-
 }
 
 
@@ -233,15 +221,12 @@ bool ntuple_SV::fillBranches(const pat::Jet & jet, const size_t& jetidx, const  
 
     const float jet_uncorr_e=jet.correctedJet("Uncorrected").energy();
     const reco::Vertex & pv =    vertices()->at(0);
-    math::XYZVector jetDir = jet.momentum().Unit();
     GlobalVector jetRefTrackDir(jet.px(),jet.py(),jet.pz());
 
     sv_num_ = 0;
     reco::VertexCompositePtrCandidateCollection cpvtx=*secVertices();
     spvp_ =   & vertices()->at(0);
     std::sort(cpvtx.begin(),cpvtx.end(),ntuple_SV::compareDxyDxyErr);
-
-    TrackInfoBuilder trackinfo(builder);
 
     float etasign=1;
     etasign++; //avoid unused warning
@@ -284,51 +269,9 @@ bool ntuple_SV::fillBranches(const pat::Jet & jet, const size_t& jetidx, const  
             sv_d3derr_[sv_num_]       = catchInfsAndBound(vertexD3d(sv,pv).error()-2,0,-2,0);
             sv_d3dsig_[sv_num_]       = catchInfsAndBound(vertexD3d(sv,pv).value()/vertexD3d(sv,pv).error(),0,-1,800);
             sv_costhetasvpv_[sv_num_] = vertexDdotP(sv,pv); // the pointing angle (i.e. the angle between the sum of the momentum
-            // of the tracks in the SV and the flight direction betwen PV and SV)
 
             sv_enratio_[sv_num_]=sv.energy()/jet_uncorr_e;
             sv_e_[sv_num_]=sv.energy();
-
-	    float calo_frac = 0.0;
-	    float hcal_frac = 0.0;
-	    float puppiw = 0.0;
-	    float charge = 0.0;
-	    float dz = 0.0;
-
-	    float pfd3dval = 0.0;
-	    float pfd3dsig = 0.0;
-	    float pfd2dval = 0.0;
-	    float pfd2dsig = 0.0;
-	    float pfcount  = 0.0;
-
-	    for (unsigned idx=0; idx<sv.numberOfDaughters(); ++idx){
-	      const pat::PackedCandidate* PackedCandidate_ = dynamic_cast<const pat::PackedCandidate*>(sv.daughter(idx));
-
-	      calo_frac = calo_frac + PackedCandidate_->caloFraction();
-	      hcal_frac = hcal_frac + PackedCandidate_->hcalFraction();
-	      puppiw = puppiw + PackedCandidate_->puppiWeight();
-	      charge = charge + PackedCandidate_->charge();
-	      dz = dz + PackedCandidate_->dz();
-	      if(PackedCandidate_->charge() != 0 and PackedCandidate_->pt() > 0.95){
-		trackinfo.buildTrackInfo(PackedCandidate_,jetDir,jetRefTrackDir,pv);
-		pfd3dval = pfd3dval + catchInfsAndBound(trackinfo.getTrackSip3dVal(), 0, -1,1e5 );
-		pfd3dsig = pfd3dsig + catchInfsAndBound(trackinfo.getTrackSip3dSig(), 0, -1,4e4 );
-		pfd2dval = pfd2dval + catchInfsAndBound(trackinfo.getTrackSip2dVal(), 0, -1,70  );
-		pfd2dsig = pfd2dsig + catchInfsAndBound(trackinfo.getTrackSip2dSig(), 0, -1,4e4 );
-		pfcount = pfcount + 1.0;
-	      }
-	    }
-
-	    sv_calo_frac_[sv_num_]          = calo_frac / sv.numberOfDaughters();
-	    sv_hcal_frac_[sv_num_]          = hcal_frac / sv.numberOfDaughters();
-	    sv_puppiw_[sv_num_]             = puppiw / sv.numberOfDaughters();
-	    sv_dz_[sv_num_]                 = dz / sv.numberOfDaughters();
-	    sv_charge_sum_[sv_num_]         = charge;
-
-	    sv_pfd3dval_[sv_num_]           = pfd3dval / pfcount;
-	    sv_pfd3dsig_[sv_num_]           = pfd3dsig / pfcount;
-	    sv_pfd2dval_[sv_num_]           = pfd2dval / pfcount;
-	    sv_pfd2dsig_[sv_num_]           = pfd2dsig / pfcount;
 
             sv_num_++;
         }

@@ -50,7 +50,7 @@ private:
 
     float nCpfcand_;
 
-    static constexpr size_t max_pfcand_=50;
+    static constexpr size_t max_pfcand_=40;
 
     float  Cpfcan_pt_[max_pfcand_];
     float  Cpfcan_px_[max_pfcand_];
@@ -66,19 +66,20 @@ private:
     float  Cpfcan_deltaR_[max_pfcand_];
     float  Cpfcan_puppiw_[max_pfcand_];
     float  Cpfcan_VTX_ass_[max_pfcand_];
-    float  Cpfcan_firsthit_[max_pfcand_];
+  //float  Cpfcan_firsthit_[max_pfcand_];
 
     float  Cpfcan_fromPV_[max_pfcand_];
+    float  Cpfcan_qp_[max_pfcand_];
     float  Cpfcan_qdotp_[max_pfcand_];
     float  Cpfcan_qoverp_[max_pfcand_];
 
-    float Cpfcan_vertexChi2_[max_pfcand_];
+  /*float Cpfcan_vertexChi2_[max_pfcand_];
     float Cpfcan_vertexNdof_[max_pfcand_];
     float Cpfcan_vertexNormalizedChi2_[max_pfcand_];
     float Cpfcan_vertex_rho_[max_pfcand_];
     float Cpfcan_vertex_phirel_[max_pfcand_];
     float Cpfcan_vertex_etarel_[max_pfcand_];
-    float Cpfcan_vertexRef_mass_[max_pfcand_];
+    float Cpfcan_vertexRef_mass_[max_pfcand_];*/
     // covariance
     float  Cpfcan_dz_[max_pfcand_];
     float  Cpfcan_dxy_[max_pfcand_];
@@ -86,14 +87,14 @@ private:
     float  Cpfcan_dxyerrinv_[max_pfcand_];
     float  Cpfcan_dxysig_[max_pfcand_];
 
-    float  Cpfcan_dptdpt_[max_pfcand_];
+  /*float  Cpfcan_dptdpt_[max_pfcand_];
     float  Cpfcan_detadeta_[max_pfcand_];
     float  Cpfcan_dphidphi_[max_pfcand_];
     float  Cpfcan_dxydxy_[max_pfcand_];
     float  Cpfcan_dzdz_[max_pfcand_];
     float  Cpfcan_dxydz_[max_pfcand_];
     float  Cpfcan_dphidxy_[max_pfcand_];
-    float  Cpfcan_dlambdadz_[max_pfcand_];
+    float  Cpfcan_dlambdadz_[max_pfcand_];*/
 
     float Cpfcan_BtagPf_trackMomentum_[max_pfcand_];
     float Cpfcan_BtagPf_trackEta_[max_pfcand_];
@@ -109,14 +110,13 @@ private:
     float Cpfcan_BtagPf_trackSip2dSig_[max_pfcand_];
 
     float Cpfcan_BtagPf_trackDecayLen_[max_pfcand_];
-
     float Cpfcan_BtagPf_trackJetDistVal_[max_pfcand_];
     float Cpfcan_BtagPf_trackJetDistSig_[max_pfcand_];
 
     // ID, skipped "charged hadron" as that is true if now the other
     // TODO (comment of Markus Stoye) add reco information
-    float Cpfcan_isMu_[max_pfcand_]; // pitty that the quality is missing
-    float Cpfcan_isEl_[max_pfcand_]; // pitty that the quality is missing
+    //float Cpfcan_isMu_[max_pfcand_]; // pitty that the quality is missing
+    //float Cpfcan_isEl_[max_pfcand_]; // pitty that the quality is missing
     float Cpfcan_charge_[max_pfcand_];
 
     // track quality

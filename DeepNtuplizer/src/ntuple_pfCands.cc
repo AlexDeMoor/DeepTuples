@@ -194,10 +194,11 @@ void ntuple_pfCands::initBranches(TTree* tree){
     addBranch(tree,"Cpfcan_dz",&Cpfcan_dz_,"Cpfcan_dz_[n_Cpfcand_]/F");
 
     addBranch(tree,"Cpfcan_VTX_ass",&Cpfcan_VTX_ass_,"Cpfcan_VTX_ass_[n_Cpfcand_]/F");
-    addBranch(tree,"Cpfcan_firsthit",&Cpfcan_firsthit_,"Cpfcan_firsthit_[n_Cpfcand_]/F");
+    //addBranch(tree,"Cpfcan_firsthit",&Cpfcan_firsthit_,"Cpfcan_firsthit_[n_Cpfcand_]/F");
 
     addBranch(tree,"Cpfcan_fromPV",&Cpfcan_fromPV_,"Cpfcan_fromPV_[n_Cpfcand_]/F");
     addBranch(tree,"Cpfcan_qdotp", &Cpfcan_qdotp_,"Cpfcan_qdotp_[n_Cpfcand_]/F");
+    addBranch(tree,"Cpfcan_qp", &Cpfcan_qp_,"Cpfcan_qp_[n_Cpfcand_]/F");
     addBranch(tree,"Cpfcan_qoverp", &Cpfcan_qoverp_,"Cpfcan_qoverp_[n_Cpfcand_]/F");
 
     addBranch(tree,"Cpfcan_drminsv",&Cpfcan_drminsv_,"Cpfcan_drminsv_[n_Cpfcand_]/F");
@@ -205,9 +206,9 @@ void ntuple_pfCands::initBranches(TTree* tree){
     addBranch(tree,"Cpfcan_distminsv2",&Cpfcan_distminsv2_,"Cpfcan_distminsv2_[n_Cpfcand_]/F");
 
     //commented ones don't work
-    addBranch(tree,"Cpfcan_vertex_rho",&Cpfcan_vertex_rho_,"Cpfcan_vertex_rho_[n_Cpfcand_]/F");
-    addBranch(tree,"Cpfcan_vertex_phirel",&Cpfcan_vertex_phirel_,"Cpfcan_vertex_phirel_[n_Cpfcand_]/F");
-    addBranch(tree,"Cpfcan_vertex_etarel",&Cpfcan_vertex_etarel_,"Cpfcan_vertex_etarel_[n_Cpfcand_]/F");
+    //addBranch(tree,"Cpfcan_vertex_rho",&Cpfcan_vertex_rho_,"Cpfcan_vertex_rho_[n_Cpfcand_]/F");
+    //addBranch(tree,"Cpfcan_vertex_phirel",&Cpfcan_vertex_phirel_,"Cpfcan_vertex_phirel_[n_Cpfcand_]/F");
+    //addBranch(tree,"Cpfcan_vertex_etarel",&Cpfcan_vertex_etarel_,"Cpfcan_vertex_etarel_[n_Cpfcand_]/F");
 
     addBranch(tree,"Cpfcan_BtagPf_trackMomentum",&Cpfcan_BtagPf_trackMomentum_,"Cpfcan_BtagPf_trackMomentum_[n_Cpfcand_]/F");
     addBranch(tree,"Cpfcan_BtagPf_trackEta",&Cpfcan_BtagPf_trackEta_,"Cpfcan_BtagPf_trackEta_[n_Cpfcand_]/F");
@@ -225,8 +226,8 @@ void ntuple_pfCands::initBranches(TTree* tree){
     addBranch(tree,"Cpfcan_BtagPf_trackJetDistVal",&Cpfcan_BtagPf_trackJetDistVal_,"Cpfcan_BtagPf_trackJetDistVal_[n_Cpfcand_]/F");
     addBranch(tree,"Cpfcan_BtagPf_trackJetDistSig",&Cpfcan_BtagPf_trackJetDistSig_,"Cpfcan_BtagPf_trackJetDistSig_[n_Cpfcand_]/F");
 
-    addBranch(tree,"Cpfcan_isMu",&Cpfcan_isMu_,"Cpfcan_isMu_[n_Cpfcand_]/F");
-    addBranch(tree,"Cpfcan_isEl",&Cpfcan_isEl_,"Cpfcan_isEl_[n_Cpfcand_]/F");
+    //addBranch(tree,"Cpfcan_isMu",&Cpfcan_isMu_,"Cpfcan_isMu_[n_Cpfcand_]/F");
+    //addBranch(tree,"Cpfcan_isEl",&Cpfcan_isEl_,"Cpfcan_isEl_[n_Cpfcand_]/F");
     // did not give integers !!
     addBranch(tree,"Cpfcan_charge",&Cpfcan_charge_,"Cpfcan_charge_[n_Cpfcand_]/F");
 
@@ -285,8 +286,8 @@ void ntuple_pfCands::readEvent(const edm::Event& iEvent){
 
 bool ntuple_pfCands::fillBranches(const pat::Jet & jet, const size_t& jetidx, const  edm::View<pat::Jet> * coll){
 
-    float etasign = 1.;
-    if (jet.eta()<0) etasign =-1.;
+  //float etasign = 1.;
+  //if (jet.eta()<0) etasign =-1.;
     math::XYZVector jetDir = jet.momentum().Unit();
     GlobalVector jetRefTrackDir(jet.px(),jet.py(),jet.pz());
     const reco::Vertex & pv = vertices()->at(0);
@@ -397,7 +398,7 @@ bool ntuple_pfCands::fillBranches(const pat::Jet & jet, const size_t& jetidx, co
             Cpfcan_etarel_[fillntupleentry] = catchInfsAndBound(fabs(PackedCandidate_->eta()-jet.eta()),0,-2,0,-0.5);
             Cpfcan_deltaR_[fillntupleentry] =catchInfsAndBound(reco::deltaR(*PackedCandidate_,jet),0,-0.6,0,-0.6);
             Cpfcan_dxy_[fillntupleentry] = catchInfsAndBound(fabs(PackedCandidate_->dxy()),0,-50,50);
-	    Cpfcan_firsthit_[fillntupleentry] = PackedCandidate_->firstHit();
+	    //Cpfcan_firsthit_[fillntupleentry] = PackedCandidate_->firstHit();
 
             Cpfcan_dxyerrinv_[fillntupleentry]= PackedCandidate_->hasTrackDetails() ? catchInfsAndBound(1/PackedCandidate_->dxyError(),0,-1, 10000.) : -1;
             Cpfcan_dxysig_[fillntupleentry]= PackedCandidate_->hasTrackDetails() ? catchInfsAndBound(fabs(PackedCandidate_->dxy()/PackedCandidate_->dxyError()),0.,-2000,2000) : 0.;
@@ -406,24 +407,25 @@ bool ntuple_pfCands::fillBranches(const pat::Jet & jet, const size_t& jetidx, co
             Cpfcan_VTX_ass_[fillntupleentry] = PackedCandidate_->pvAssociationQuality();
 
             Cpfcan_fromPV_[fillntupleentry] = PackedCandidate_->fromPV();
+            Cpfcan_qp_[fillntupleentry] = (PackedCandidate_->charge()*PackedCandidate_->pt())/jet_uncorr_pt;
             Cpfcan_qdotp_[fillntupleentry] = PackedCandidate_->charge()*PackedCandidate_->pt();
             Cpfcan_qoverp_[fillntupleentry] = PackedCandidate_->charge()/PackedCandidate_->pt();
 
             float tempdontopt=PackedCandidate_->vx();
             tempdontopt++;
 
-            Cpfcan_vertexChi2_[fillntupleentry]=PackedCandidate_->vertexChi2();
-            Cpfcan_vertexNdof_[fillntupleentry]=PackedCandidate_->vertexNdof();
+            //Cpfcan_vertexChi2_[fillntupleentry]=PackedCandidate_->vertexChi2();
+            //Cpfcan_vertexNdof_[fillntupleentry]=PackedCandidate_->vertexNdof();
 
             Cpfcan_CaloFrac_[fillntupleentry] = PackedCandidate_->caloFraction();
             Cpfcan_HadFrac_[fillntupleentry] = PackedCandidate_->hcalFraction();
 
             //divided
-            Cpfcan_vertexNormalizedChi2_[fillntupleentry]=PackedCandidate_->vertexNormalizedChi2();
+            /*Cpfcan_vertexNormalizedChi2_[fillntupleentry]=PackedCandidate_->vertexNormalizedChi2();
             Cpfcan_vertex_rho_[fillntupleentry]=catchInfsAndBound(PackedCandidate_->vertex().rho(),0,-1,50);
             Cpfcan_vertex_phirel_[fillntupleentry]=reco::deltaPhi(PackedCandidate_->vertex().phi(),jet.phi());
             Cpfcan_vertex_etarel_[fillntupleentry]=etasign*(PackedCandidate_->vertex().eta()-jet.eta());
-            Cpfcan_vertexRef_mass_[fillntupleentry]=PackedCandidate_->vertexRef()->p4().M();
+            Cpfcan_vertexRef_mass_[fillntupleentry]=PackedCandidate_->vertexRef()->p4().M();*/
 
 
             Cpfcan_puppiw_[fillntupleentry] = PackedCandidate_->puppiWeight();
@@ -455,7 +457,7 @@ bool ntuple_pfCands::fillBranches(const pat::Jet & jet, const size_t& jetidx, co
             Cpfcan_BtagPf_trackJetDistSig_[fillntupleentry] =catchInfsAndBound(trackinfo.getTrackJetDistSig(),0,-1,1e5 );
 
             // TO DO: we can do better than that by including reco::muon informations
-            Cpfcan_isMu_[fillntupleentry] = 0;
+            /*Cpfcan_isMu_[fillntupleentry] = 0;
             if(abs(PackedCandidate_->pdgId())==13) {
                 Cpfcan_isMu_[fillntupleentry] = 1;
             }
@@ -463,7 +465,7 @@ bool ntuple_pfCands::fillBranches(const pat::Jet & jet, const size_t& jetidx, co
             Cpfcan_isEl_[fillntupleentry] = 0;
             if(abs(PackedCandidate_->pdgId())==11) {
                 Cpfcan_isEl_[fillntupleentry] = 1;
-            }
+		}*/
 
 	    // tau specific prior to any puppi weight application
 	    if (std::find(tau_pfcandidates.begin(), tau_pfcandidates.end(), PackedCandidate_->p4()) != tau_pfcandidates.end())

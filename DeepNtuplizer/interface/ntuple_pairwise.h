@@ -53,39 +53,16 @@ class ntuple_pairwise: public ntuple_content{
   float pair_pca_error_[max_pfcand_];
   float pair_pca_significance_[max_pfcand_];
 
-  float pair_pcaSeed_x1_[max_pfcand_];
-  float pair_pcaSeed_y1_[max_pfcand_];
-  float pair_pcaSeed_z1_[max_pfcand_];
-
-  float pair_pcaSeed_x2_[max_pfcand_];
-  float pair_pcaSeed_y2_[max_pfcand_];
-  float pair_pcaSeed_z2_[max_pfcand_];
-
-  float pair_pcaSeed_xerr1_[max_pfcand_];
-  float pair_pcaSeed_yerr1_[max_pfcand_];
-  float pair_pcaSeed_zerr1_[max_pfcand_];
-
-  float pair_pcaSeed_xerr2_[max_pfcand_];
-  float pair_pcaSeed_yerr2_[max_pfcand_];
-  float pair_pcaSeed_zerr2_[max_pfcand_];
-
   float pair_dotprod1_[max_pfcand_];
   float pair_dotprod2_[max_pfcand_];
 
   float pair_pca_dist1_[max_pfcand_];
   float pair_pca_dist2_[max_pfcand_];
 
-  float pair_dotprod12_2D_[max_pfcand_];
-  float pair_dotprod12_2DV_[max_pfcand_];
-  float pair_dotprod12_3D_[max_pfcand_];
-  float pair_dotprod12_3DV_[max_pfcand_];
-
   float pair_pca_jetAxis_dist_[max_pfcand_];
   float pair_pca_jetAxis_dotprod_[max_pfcand_];
   float pair_pca_jetAxis_dEta_[max_pfcand_];
   float pair_pca_jetAxis_dPhi_[max_pfcand_];
-
-  float pfcand_dist_vtx_12_[max_pfcand_];
 
   float mindrsvpfcand(const pat::PackedCandidate* pfcand);
 
