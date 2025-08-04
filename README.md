@@ -12,6 +12,7 @@ cd CMSSW_15_0_2/src/
 cmsenv
 git cms-init
 git clone https://github.com/AlexDeMoor/DeepTuples.git
+mv DeepTuples DeepNTuples
 cd DeepNTuples
 git checkout trimmed_beyond_1B
 # Add JetToolBox
