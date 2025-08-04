@@ -36,7 +36,7 @@
 #include "TCanvas.h"
 #include <ctime>
 
-#include "DeepNTuples/DeepNtuplizer/interface/ntuple_bTagVars.h"
+//#include "DeepNTuples/DeepNtuplizer/interface/ntuple_bTagVars.h"
 #include "DeepNTuples/DeepNtuplizer/interface/ntuple_JetInfo.h"
 #include "DeepNTuples/DeepNtuplizer/interface/ntuple_pfCands.h"
 #include "DeepNTuples/DeepNtuplizer/interface/ntuple_SV.h"
@@ -126,7 +126,7 @@ std::vector<TChain* > createChains(const std::vector<std::vector<TString> >& inf
     branchinfos.push_back(new ntuple_V0Ks());
     branchinfos.push_back(new ntuple_pairwise());
     branchinfos.push_back(new ntuple_LT());
-    branchinfos.push_back(new ntuple_bTagVars());
+    //branchinfos.push_back(new ntuple_bTagVars());
     branchinfos.push_back(new ntuple_pfCands());
 
     std::vector<TChain* > chains;

@@ -166,7 +166,7 @@ void ntuple_LT::getInput(const edm::ParameterSet& iConfig){
 void ntuple_LT::initBranches(TTree* tree){
 
   addBranch(tree,"n_LTcand", &n_LTcand_,"n_LTcand_/I");
-  addBranch(tree,"n_LT", &n_LT_,"n_LT_/I");
+  //addBranch(tree,"n_LT", &n_LT_,"n_LT_/I");
 
   addBranch(tree,"LT_pt", &LT_pt_,"LT_pt_[n_LTcand_]/F");
   addBranch(tree,"LT_eta", &LT_eta_,"LT_eta_[n_LTcand_]/F");
@@ -201,7 +201,7 @@ void ntuple_LT::initBranches(TTree* tree){
   addBranch(tree,"LT_chi2",&LT_chi2_,"LT_chi2_[n_LTcand_]/F");
   addBranch(tree,"LT_quality",&LT_quality_,"LT_quality_[n_LTcand_]/F");
   
-  addBranch(tree,"LT_tau_signal",&LT_tau_signal_,"LT_tau_signal_[n_LTcand_]/F");
+  //addBranch(tree,"LT_tau_signal",&LT_tau_signal_,"LT_tau_signal_[n_LTcand_]/F");
   addBranch(tree,"LT_lostInnerHits",&LT_lostInnerHits_,"LT_lostInnerHits_[n_LTcand_]/F");
   addBranch(tree,"LT_numberOfPixelHits",&LT_numberOfPixelHits_,"LT_numberOfPixelHits_[n_LTcand_]/F");
   addBranch(tree,"LT_numberOfStripHits",&LT_numberOfStripHits_,"LT_numberOfStripHits_[n_LTcand_]/F");

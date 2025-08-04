@@ -15,7 +15,7 @@
 #include "TROOT.h"
 #include <stdio.h>
 
-#include "DeepNTuples/DeepNtuplizer/interface/ntuple_bTagVars.h"
+//#include "DeepNTuples/DeepNtuplizer/interface/ntuple_bTagVars.h"
 #include "DeepNTuples/DeepNtuplizer/interface/ntuple_JetInfo.h"
 #include "DeepNTuples/DeepNtuplizer/interface/ntuple_pfCands.h"
 #include "DeepNTuples/DeepNtuplizer/interface/ntuple_SV.h"
@@ -125,7 +125,7 @@ std::vector<TChain* > mergeDescriptor::createChains(
     branchinfos.push_back(new ntuple_JetInfo());
     branchinfos.push_back(new ntuple_SV());
     branchinfos.push_back(new ntuple_LT());
-    branchinfos.push_back(new ntuple_bTagVars());
+    //branchinfos.push_back(new ntuple_bTagVars());
     branchinfos.push_back(new ntuple_pfCands());
 
     std::vector<TChain* > chains;

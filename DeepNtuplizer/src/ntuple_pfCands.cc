@@ -171,7 +171,7 @@ void ntuple_pfCands::getInput(const edm::ParameterSet& iConfig){
 void ntuple_pfCands::initBranches(TTree* tree){
 
     addBranch(tree,"n_Cpfcand", &n_Cpfcand_,"n_Cpfcand_/I");
-    addBranch(tree,"nCpfcand", &nCpfcand_,"nCpfcand_/F");
+    //addBranch(tree,"nCpfcand", &nCpfcand_,"nCpfcand_/F");
 
     addBranch(tree,"Cpfcan_pt", &Cpfcan_pt_,"Cpfcan_pt_[n_Cpfcand_]/F");
     addBranch(tree,"Cpfcan_px", &Cpfcan_px_,"Cpfcan_px_[n_Cpfcand_]/F");
@@ -241,7 +241,7 @@ void ntuple_pfCands::initBranches(TTree* tree){
 
     //Neutral Pf candidates
     addBranch(tree,"n_Npfcand", &n_Npfcand_,"n_Npfcand_/I");
-    addBranch(tree,"nNpfcand", &nNpfcand_,"nNpfcand/F");
+    //addBranch(tree,"nNpfcand", &nNpfcand_,"nNpfcand/F");
 
     addBranch(tree,"Npfcan_pt", &Npfcan_pt_,"Npfcan_pt_[n_Npfcand_]/F");
     addBranch(tree,"Npfcan_px", &Npfcan_px_,"Npfcan_px_[n_Npfcand_]/F");
@@ -269,6 +269,9 @@ void ntuple_pfCands::initBranches(TTree* tree){
 
     addBranch(tree,"Cpfcan_HadFrac",&Cpfcan_HadFrac_,"Cpfcan_HadFrac_[n_Cpfcand_]/F");
     addBranch(tree,"Cpfcan_CaloFrac",&Cpfcan_CaloFrac_,"Cpfcan_CaloFrac_[n_Cpfcand_]/F");
+
+    addBranch(tree,"Cpfcan_ECaloDiff",&Cpfcan_ECaloDiff_,"Cpfcan_ECaloDiff_[n_Cpfcand_]/F");
+    addBranch(tree,"Npfcan_ECaloDiff",&Npfcan_ECaloDiff_,"Npfcan_ECaloDiff_[n_Npfcand_]/F");
 
     addBranch(tree,"Cpfcan_tau_signal",&Cpfcan_tau_signal_,"Cpfcan_tau_signal_[n_Cpfcand_]/F");
     addBranch(tree,"Npfcan_tau_signal",&Npfcan_tau_signal_,"Npfcan_tau_signal_[n_Npfcand_]/F");
@@ -419,6 +422,7 @@ bool ntuple_pfCands::fillBranches(const pat::Jet & jet, const size_t& jetidx, co
 
             Cpfcan_CaloFrac_[fillntupleentry] = PackedCandidate_->caloFraction();
             Cpfcan_HadFrac_[fillntupleentry] = PackedCandidate_->hcalFraction();
+	    Cpfcan_ECaloDiff_[fillntupleentry] = (PackedCandidate_->caloFraction()-2*PackedCandidate_->hcalFraction())*PackedCandidate_->energy();
 
             //divided
             /*Cpfcan_vertexNormalizedChi2_[fillntupleentry]=PackedCandidate_->vertexNormalizedChi2();
@@ -508,6 +512,7 @@ bool ntuple_pfCands::fillBranches(const pat::Jet & jet, const size_t& jetidx, co
             if(fabs(PackedCandidate_->pdgId())==22)  Npfcan_isGamma_[fillntupleentry] = 1;
             Npfcan_CaloFrac_[fillntupleentry] = PackedCandidate_->caloFraction();
             Npfcan_HadFrac_[fillntupleentry] = PackedCandidate_->hcalFraction();
+	    Npfcan_ECaloDiff_[fillntupleentry] = (PackedCandidate_->caloFraction()-2*PackedCandidate_->hcalFraction())*PackedCandidate_->energy();
             Npfcan_pdgID_[fillntupleentry] = pdgid_;
 
             Npfcan_drminsv_[fillntupleentry] = catchInfsAndBound(drminpfcandsv_,0,-0.4,0,-0.4);

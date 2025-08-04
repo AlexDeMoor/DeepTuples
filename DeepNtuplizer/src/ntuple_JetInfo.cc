@@ -123,6 +123,7 @@ void ntuple_JetInfo::initBranches(TTree* tree){
     addBranch(tree,"jet_mass", &jet_mass_, "jet_mass_/F");
     addBranch(tree,"jet_energy", &jet_energy_, "jet_energy_/F");
 
+    /*
     //jet id
     addBranch(tree,"jet_looseId", &jet_looseId_, "jet_looseId_/F");
     addBranch(tree,"jet_jetId", &jet_jetId_, "jet_jetId_/I");
@@ -149,7 +150,7 @@ void ntuple_JetInfo::initBranches(TTree* tree){
     addBranch(tree,"gen_particle_daughters_phi", &gen_particle_daughters_phi_, "gen_particle_daughters_phi_[gend_number_]/F");
     addBranch(tree,"gen_particle_daughters_mass", &gen_particle_daughters_mass_, "gen_particle_daughters_mass_[gend_number_]/F");
     addBranch(tree,"gen_particle_daughters_status", &gen_particle_daughters_status_, "gen_particle_daughters_status_[gend_number_]/F");
-    addBranch(tree,"gen_particle_daughters_charge", &gen_particle_daughters_charge_, "gen_particle_daughters_charge_[gend_number_]/F");
+    addBranch(tree,"gen_particle_daughters_charge", &gen_particle_daughters_charge_, "gen_particle_daughters_charge_[gend_number_]/F");*/
 
     if(1) // discriminators might need to be filled differently. FIXME
         for(auto& entry : discriminators_) {

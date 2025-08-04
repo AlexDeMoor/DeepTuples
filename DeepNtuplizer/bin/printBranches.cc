@@ -2,7 +2,7 @@
 
 #include "../interface/ntuple_JetInfo.h"
 #include "../interface/ntuple_SV.h"
-#include "../interface/ntuple_bTagVars.h"
+//#include "../interface/ntuple_bTagVars.h"
 #include "../interface/ntuple_pfCands.h"
 #include "../interface/ntuple_FatJetInfo.h"
 #include "../interface/ntuple_LT.h"
@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
     branchinfos.push_back(new ntuple_JetInfo());
     branchinfos.push_back(new ntuple_SV());
     branchinfos.push_back(new ntuple_LT());
-    branchinfos.push_back(new ntuple_bTagVars());
+    //branchinfos.push_back(new ntuple_bTagVars());
     branchinfos.push_back(new ntuple_pfCands());
 
     if (argc < 3)

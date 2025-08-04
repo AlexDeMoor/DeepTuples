@@ -84,16 +84,17 @@ process.maxEvents  = cms.untracked.PSet(
 )
 releases = release.split("_")
 
-bTagInfos = ['pfDeepFlavourTagInfos',
-             'pfImpactParameterTagInfos',
-             'pfInclusiveSecondaryVertexFinderTagInfos',
-             'pfParticleNetAK4TagInfos',]
+bTagInfos = ['None']
 
 from RecoBTag.ONNXRuntime.pfParticleNetAK4_cff import _pfParticleNetAK4JetTagsAll as pfParticleNetAK4JetTagsAll
 from RecoBTag.ONNXRuntime.pfParticleNetFromMiniAODAK4_cff import _pfParticleNetFromMiniAODAK4PuppiCentralJetTagsProbs
 from RecoBTag.ONNXRuntime.pfUnifiedParticleTransformerAK4_cff import _pfUnifiedParticleTransformerAK4JetTagsAll
 
+bTagDiscriminators = _pfUnifiedParticleTransformerAK4JetTagsAll
+
+'''
 if (int(releases[0])>8) or ( (int(releases[0])==8) and (int(releases[1]) >= 4) ) :
+
  bTagDiscriminators = [
      'pfDeepFlavourJetTags:probb',
      'pfDeepFlavourJetTags:probbb',
@@ -123,7 +124,7 @@ else :
       'pfParticleTransformerAK4JetTags:probuds',
       'pfParticleTransformerAK4JetTags:probg',
  ] + _pfParticleNetFromMiniAODAK4PuppiCentralJetTagsProbs + pfParticleNetAK4JetTagsAll + _pfUnifiedParticleTransformerAK4JetTagsAll
-
+'''
 jetCorrectionsAK4 = ('AK4PFchs', ['L1FastJet', 'L2Relative', 'L3Absolute'], 'None')
 
 from PhysicsTools.PatAlgos.tools.jetTools import updateJetCollection
@@ -334,9 +335,6 @@ process.deepntuplizer.bDiscriminators = bTagDiscriminators
 process.deepntuplizer.LooseSVs = cms.InputTag("looseIVFinclusiveCandidateSecondaryVertices")
 
 process.deepntuplizer.applySelection = cms.bool(options.selectJets)
-
-if ( int(releases[0]) > 8 ) or ( (int(releases[0])==8) and (int(releases[1]) >= 4) ):
-   process.deepntuplizer.tagInfoName = cms.string('pfDeepCSV')
 
 if options.isMC:
     process.deepntuplizer.MC = cms.bool(True)

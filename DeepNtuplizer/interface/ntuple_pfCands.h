@@ -157,6 +157,9 @@ private:
     float  Cpfcan_HadFrac_[max_pfcand_];
     float  Cpfcan_CaloFrac_[max_pfcand_];
 
+    float  Cpfcan_ECaloDiff_[max_pfcand_];
+    float  Npfcan_ECaloDiff_[max_pfcand_];
+
     float  Cpfcan_tau_signal_[max_pfcand_];
     float  Npfcan_tau_signal_[max_pfcand_];
 

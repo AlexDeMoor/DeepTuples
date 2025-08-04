@@ -13,7 +13,7 @@
 #include "../interface/ntuple_pairwise.h"
 #include "../interface/ntuple_JetInfo.h"
 #include "../interface/ntuple_pfCands.h"
-#include "../interface/ntuple_bTagVars.h"
+//#include "../interface/ntuple_bTagVars.h"
 #include "../interface/ntuple_FatJetInfo.h"
 #include "../interface/ntuple_LT.h"
 //ROOT includes
@@ -196,7 +196,7 @@ DeepNtuplizer::DeepNtuplizer(const edm::ParameterSet& iConfig):
 
   addModule(pairwise, "pairwise");
 
-  addModule(new ntuple_bTagVars(), "bTagVars");
+  //addModule(new ntuple_bTagVars(), "bTagVars");
 
   if(runFatJets_){
     auto *fatjetinfo = new ntuple_FatJetInfo(jetR);

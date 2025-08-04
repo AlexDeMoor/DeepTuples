@@ -166,7 +166,7 @@ void ntuple_SV::getInput(const edm::ParameterSet& iConfig){
 void ntuple_SV::initBranches(TTree* tree){
     // SV candidates
     addBranch(tree,(prefix_+"n_sv").c_str()         ,&sv_num_         ,(prefix_+"sv_num_/I").c_str()     );
-    addBranch(tree,(prefix_+"nsv").c_str()          ,&nsv_          ,(prefix_+"nsv_/F").c_str()         );
+    //addBranch(tree,(prefix_+"nsv").c_str()          ,&nsv_          ,(prefix_+"nsv_/F").c_str()         );
     addBranch(tree,(prefix_+"sv_pt").c_str()          ,&sv_pt_          ,(prefix_+"sv_pt_["+prefix_+"sv_num_]/F").c_str()        );
     addBranch(tree,(prefix_+"sv_px").c_str()          ,&sv_px_          ,(prefix_+"sv_px_["+prefix_+"sv_num_]/F").c_str()        );
     addBranch(tree,(prefix_+"sv_py").c_str()          ,&sv_py_          ,(prefix_+"sv_py_["+prefix_+"sv_num_]/F").c_str()        );
