@@ -11,9 +11,9 @@ cmsrel CMSSW_15_0_2
 cd CMSSW_15_0_2/src/
 cmsenv
 git cms-init
-git clone https://gitlab.cern.ch/cms-btv/DeepNTuples.git
+git clone https://github.com/AlexDeMoor/DeepTuples.git
 cd DeepNTuples
-git checkout Unified2025
+git checkout trimmed_beyond_1B
 # Add JetToolBox
 git submodule init
 git submodule update
